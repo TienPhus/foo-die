@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="foo'die">
+  <meta name="theme-color" content="#1a1208">
+  <title>foo'die 🍜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    :root {
+      --bg: #0f0d08;
+      --bg2: #1a1710;
+      --bg3: #252018;
+      --bg4: #2e2820;
+      --accent: #e8a030;
+      --accent2: #d45a20;
+      --accent-soft: rgba(232,160,48,0.12);
+      --text: #f0ead8;
+      --text2: #9a9080;
+      --text3: #5a5040;
+      --border: rgba(255,255,255,0.07);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --me-color: #e8a030;
+      --ny-color: #e0608a;
+      --me-bg: rgba(232,160,48,0.15);
+      --ny-bg: rgba(224,96,138,0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* PHONE WRAPPER */
+    .app {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* STATUS BAR AREA */
+    .status-area {
+      height: env(safe-area-inset-top, 20px);
+      min-height: 20px;
+      background: var(--bg);
+      flex-shrink: 0;
+    }
+
+    /* HEADER */
+    .header {
+      padding: 12px 20px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .header-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .header-logo span { color: var(--text2); font-weight: 400; font-size: 18px; }
+
+    .header-avatars { display: flex; gap: 6px; align-items: center; }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
+      border: 1.5px solid transparent;
+    }
+    .av-me { background: var(--me-bg); color: var(--me-color); border-color: var(--me-color); }
+    .av-ny { background: var(--ny-bg); color: var(--ny-color); border-color: var(--ny-color); }
+
+    /* PAGES */
+    .pages { flex: 1; overflow: hidden; position: relative; }
+    .page { position: absolute; inset: 0; overflow-y: auto; display: none; flex-direction: column; }
+    .page.active { display: flex; }
+    .page::-webkit-scrollbar { display: none; }
+
+    /* FEED PAGE */
+    .feed-list { padding: 14px 16px 100px; display: flex; flex-direction: column; gap: 12px; }
+
+    .meal-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.15s;
+    }
+    .meal-card:active { transform: scale(0.98); }
+
+    .meal-img-wrap {
+      width: 100%; height: 180px; position: relative;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .meal-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .meal-img-placeholder { font-size: 52px; }
+
+    .meal-tag {
+      position: absolute; top: 10px; right: 10px;
+      padding: 3px 10px; border-radius: 99px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
+      backdrop-filter: blur(8px);
+    }
+    .tag-sang { background: rgba(232,160,48,0.85); color: #1a1208; }
+    .tag-trua { background: rgba(50,180,120,0.85); color: #0d2018; }
+    .tag-toi  { background: rgba(100,120,220,0.85); color: #0d1028; }
+    .tag-snack { background: rgba(220,100,60,0.85); color: #1a0d08; }
+
+    .meal-body { padding: 12px 14px; }
+    .meal-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+    .meal-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .heart-btn { background: none; border: none; cursor: pointer; padding: 2px 4px; font-size: 20px; color: var(--text3); transition: color 0.2s, transform 0.15s; }
+    .heart-btn.liked { color: #e05070; }
+    .heart-btn:active { transform: scale(1.3); }
+
+    .meal-note { font-size: 13px; color: var(--text2); margin-bottom: 8px; line-height: 1.5; }
+    .meal-meta { display: flex; align-items: center; gap: 6px; }
+    .who-badge {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500;
+    }
+    .who-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; }
+    .meal-time { font-size: 12px; color: var(--text3); margin-left: auto; }
+
+    .empty-feed {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 20px; gap: 12px; color: var(--text3); text-align: center;
+    }
+    .empty-feed .emoji { font-size: 48px; }
+    .empty-feed p { font-size: 14px; line-height: 1.6; }
+
+    /* CHECKIN PAGE */
+    .checkin-wrap { padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--text);
+      padding: 16px 16px 0;
+    }
+
+    .upload-area {
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      height: 170px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; cursor: pointer;
+      background: var(--bg2);
+      transition: border-color 0.2s, background 0.2s;
+      overflow: hidden; position: relative;
+    }
+    .upload-area:active { border-color: var(--accent); background: var(--accent-soft); }
+    .upload-area i { font-size: 30px; color: var(--accent); }
+    .upload-area span { font-size: 13px; color: var(--text2); }
+    .upload-area img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .remove-img-btn {
+      position: absolute; top: 8px; right: 8px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(0,0,0,0.6); color: white;
+      border: none; cursor: pointer; font-size: 14px;
+      display: none; align-items: center; justify-content: center;
+      z-index: 2;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 12px; color: var(--text2); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+    .field input, .field textarea {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 11px 14px;
+      font-size: 15px; color: var(--text); font-family: 'DM Sans', sans-serif;
+      outline: none; transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field textarea { resize: none; height: 80px; line-height: 1.5; }
+    .field input::placeholder, .field textarea::placeholder { color: var(--text3); }
+
+    .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .type-btn {
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      font-size: 13px; color: var(--text2);
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .type-btn.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+    .who-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .who-btn {
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      font-size: 13px; color: var(--text2);
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .who-btn.me.selected { border-color: var(--me-color); background: var(--me-bg); color: var(--me-color); }
+    .who-btn.ny.selected { border-color: var(--ny-color); background: var(--ny-bg); color: var(--ny-color); }
+
+    .submit-btn {
+      background: var(--accent); color: #1a1208;
+      border: none; border-radius: var(--radius-sm);
+      padding: 14px; font-size: 15px; font-weight: 600;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .submit-btn:active { transform: scale(0.97); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .submit-btn.loading { opacity: 0.7; }
+
+    /* STATS PAGE */
+    .stats-wrap { padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
+
+    .person-toggle {
+      display: flex; background: var(--bg2); border-radius: var(--radius-sm);
+      padding: 3px; gap: 3px; border: 1px solid var(--border);
+    }
+    .ptog-btn {
+      flex: 1; padding: 8px; border: none; background: none;
+      border-radius: 8px; font-size: 13px; cursor: pointer;
+      color: var(--text2); font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+    .ptog-btn.active {
+      background: var(--bg4); color: var(--text);
+      font-weight: 500; box-shadow: 0 0 0 1px var(--border);
+    }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px;
+    }
+    .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--text); }
+    .stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+    .section-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+
+    .bar-list { display: flex; flex-direction: column; gap: 10px; }
+    .bar-row { display: flex; align-items: center; gap: 10px; }
+    .bar-label { font-size: 13px; color: var(--text2); width: 52px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 7px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
+    .bar-count { font-size: 13px; color: var(--text2); width: 20px; text-align: right; }
+
+    .streak-row { display: flex; gap: 6px; }
+    .streak-day { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .streak-circle {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600;
+    }
+    .streak-circle.on { background: var(--accent); color: #1a1208; }
+    .streak-circle.off { background: var(--bg3); color: var(--text3); }
+    .streak-dname { font-size: 10px; color: var(--text3); }
+
+    /* TAB BAR */
+    .tab-bar {
+      display: flex;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .tab-btn {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 10px 0 8px;
+      gap: 3px; border: none; background: none; cursor: pointer;
+      color: var(--text3); font-size: 10px; font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .tab-btn i { font-size: 22px; }
+    .tab-btn.active { color: var(--accent); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text); padding: 11px 20px; border-radius: 99px;
+      font-size: 13px; white-space: nowrap; z-index: 999;
+      opacity: 0; transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* LOADING */
+    .spinner {
+      width: 18px; height: 18px; border: 2px solid rgba(26,18,8,0.3);
+      border-top-color: #1a1208; border-radius: 50%; animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* UPLOAD PROGRESS */
+    .upload-progress {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent); transform-origin: left;
+      transform: scaleX(0); transition: transform 0.3s;
+    }
+
+    /* CONNECTING STATE */
+    .connecting { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 14px; color: var(--text2); }
+    .connecting .big-spinner { width: 36px; height: 36px; border: 3px solid var(--bg3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="status-area"></div>
+
+  <div class="header">
+    <div class="header-logo">foo<span>'</span>die</div>
+    <div class="header-avatars">
+      <div class="avatar av-me" title="Tôi">Tui</div>
+      <div class="avatar av-ny" title="Người yêu">NY</div>
+    </div>
+  </div>
+
+  <div class="pages">
+    <!-- FEED -->
+    <div class="page active" id="page-feed">
+      <div class="feed-list" id="feed-list">
+        <div class="connecting"><div class="big-spinner"></div><span>Đang tải...</span></div>
+      </div>
+    </div>
+
+    <!-- CHECK-IN -->
+    <div class="page" id="page-checkin">
+      <div class="page-title">Check-in món ăn 📸</div>
+      <div class="checkin-wrap">
+        <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+          <i class="ti ti-camera"></i>
+          <span>Chụp hoặc chọn ảnh</span>
+          <img id="preview-img" style="display:none">
+          <button class="remove-img-btn" id="remove-img-btn" onclick="removeImg(event)">✕</button>
+          <div class="upload-progress" id="upload-progress"></div>
+        </div>
+        <input type="file" id="file-input" accept="image/*" capture="environment" style="display:none" onchange="handleImgSelect(this)">
+
+        <div class="field">
+          <label>Tên món ăn</label>
+          <input type="text" id="meal-name" placeholder="vd: Phở bò, Cơm tấm...">
+        </div>
+
+        <div class="field">
+          <label>Ai ăn?</label>
+          <div class="who-grid">
+            <button class="who-btn me selected" onclick="selectWho(this,'me')">🙋 Tôi</button>
+            <button class="who-btn ny" onclick="selectWho(this,'ny')">💕 Người yêu</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Bữa ăn</label>
+          <div class="type-grid">
+            <button class="type-btn selected" onclick="selectType(this,'sang')">🌅 Sáng</button>
+            <button class="type-btn" onclick="selectType(this,'trua')">☀️ Trưa</button>
+            <button class="type-btn" onclick="selectType(this,'toi')">🌙 Tối</button>
+            <button class="type-btn" onclick="selectType(this,'snack')">🧃 Snack</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Ghi chú</label>
+          <textarea id="meal-note" placeholder="Ngon không? Ăn ở đâu? Cảm nhận..."></textarea>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitCheckin()">
+          <i class="ti ti-check"></i> Check-in ngay
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="page" id="page-stats">
+      <div class="page-title">Thống kê 📊</div>
+      <div class="stats-wrap">
+        <div class="person-toggle">
+          <button class="ptog-btn active" onclick="switchStats(this,'both')">Cả hai</button>
+          <button class="ptog-btn" onclick="switchStats(this,'me')">Tôi</button>
+          <button class="ptog-btn" onclick="switchStats(this,'ny')">Người yêu</button>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-label">Tổng bữa</div>
+            <div class="stat-val" id="st-total">—</div>
+            <div class="stat-sub">tuần này</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Thả tim</div>
+            <div class="stat-val" id="st-likes">—</div>
+            <div class="stat-sub">bữa được thích</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Hay ăn nhất</div>
+            <div class="stat-val" id="st-fav" style="font-size:15px; padding-top:6px;">—</div>
+            <div class="stat-sub" id="st-fav-sub"></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Bữa sáng</div>
+            <div class="stat-val" id="st-breakfast">—</div>
+            <div class="stat-sub">ngày có ăn sáng</div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="section-label">Phân bố bữa ăn</div>
+          <div class="bar-list">
+            <div class="bar-row">
+              <span class="bar-label">🌅 Sáng</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-sang" style="background:#e8a030;width:0%"></div></div>
+              <span class="bar-count" id="cnt-sang">0</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">☀️ Trưa</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-trua" style="background:#32b478;width:0%"></div></div>
+              <span class="bar-count" id="cnt-trua">0</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">🌙 Tối</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-toi" style="background:#6478dc;width:0%"></div></div>
+              <span class="bar-count" id="cnt-toi">0</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">🧃 Snack</span>
+              <div class="bar-track"><div class="bar-fill" id="bar-snack" style="background:#dc643c;width:0%"></div></div>
+              <span class="bar-count" id="cnt-snack">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div class="section-label">Check-in 7 ngày qua</div>
+          <div class="streak-row" id="streak-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('feed',this)">
+      <i class="ti ti-layout-list"></i>
+      <span>Feed</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('checkin',this)">
+      <i class="ti ti-circle-plus"></i>
+      <span>Check-in</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('stats',this)">
+      <i class="ti ti-chart-bar"></i>
+      <span>Thống kê</span>
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyALBmKyQk3GRHWDRUfdKhwdvz9fXt9cW0M",
+  authDomain: "foo-die-47235.firebaseapp.com",
+  projectId: "foo-die-47235",
+  storageBucket: "foo-die-47235.firebasestorage.app",
+  messagingSenderId: "432831586335",
+  appId: "1:432831586335:web:6ff0b75d8c2742255a352a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+window._db = db;
+window._storage = storage;
+window._collection = collection;
+window._addDoc = addDoc;
+window._updateDoc = updateDoc;
+window._doc = doc;
+window._ref = ref;
+window._uploadBytesResumable = uploadBytesResumable;
+window._getDownloadURL = getDownloadURL;
+window._serverTimestamp = serverTimestamp;
+
+// Real-time feed listener
+const q = query(collection(db, 'meals'), orderBy('createdAt', 'desc'));
+onSnapshot(q, (snapshot) => {
+  window._meals = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderFeed();
+  renderStats();
+});
+</script>
+
+<script>
+// State
+let selectedType = 'sang';
+let selectedWho = 'me';
+let selectedFile = null;
+let statsFilter = 'both';
+
+const tagMap = { sang:'Sáng', trua:'Trưa', toi:'Tối', snack:'Snack' };
+const tagClass = { sang:'tag-sang', trua:'tag-trua', toi:'tag-toi', snack:'tag-snack' };
+const emojiMap = { sang:'🌅', trua:'☀️', toi:'🌙', snack:'🧃' };
+const placeholderEmoji = ['🍜','🍱','🥗','🍣','🍛','🥘','🍝','🥩','🍲','🍚'];
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'stats') renderStats();
+}
+
+function selectType(btn, val) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedType = val;
+}
+
+function selectWho(btn, val) {
+  document.querySelectorAll('.who-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedWho = val;
+}
+
+function handleImgSelect(input) {
+  if (input.files && input.files[0]) {
+    selectedFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      const prev = document.getElementById('preview-img');
+      prev.src = e.target.result;
+      prev.style.display = 'block';
+      document.getElementById('remove-img-btn').style.display = 'flex';
+      document.querySelector('.upload-area i').style.display = 'none';
+      document.querySelector('.upload-area span').style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function removeImg(e) {
+  e.stopPropagation();
+  selectedFile = null;
+  document.getElementById('preview-img').style.display = 'none';
+  document.getElementById('remove-img-btn').style.display = 'none';
+  document.querySelector('.upload-area i').style.display = '';
+  document.querySelector('.upload-area span').style.display = '';
+  document.getElementById('file-input').value = '';
+}
+
+async function submitCheckin() {
+  const name = document.getElementById('meal-name').value.trim();
+  if (!name) { showToast('⚠️ Nhập tên món đi bạn ơi!'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Đang lưu...';
+
+  try {
+    let imgUrl = '';
+    if (selectedFile) {
+      const storageRef = window._ref(window._storage, 'meals/' + Date.now() + '_' + selectedFile.name);
+      const uploadTask = window._uploadBytesResumable(storageRef, selectedFile);
+      const progress = document.getElementById('upload-progress');
+
+      imgUrl = await new Promise((resolve, reject) => {
+        uploadTask.on('state_changed',
+          snap => {
+            const pct = snap.bytesTransferred / snap.totalBytes;
+            progress.style.transform = 'scaleX(' + pct + ')';
+          },
+          reject,
+          async () => {
+            const url = await window._getDownloadURL(uploadTask.snapshot.ref);
+            resolve(url);
+          }
+        );
+      });
+    }
+
+    await window._addDoc(window._collection(window._db, 'meals'), {
+      name,
+      who: selectedWho,
+      mealType: selectedType,
+      note: document.getElementById('meal-note').value.trim(),
+      imgUrl,
+      liked: false,
+      createdAt: window._serverTimestamp()
+    });
+
+    showToast('✅ Check-in thành công!');
+    document.getElementById('meal-name').value = '';
+    document.getElementById('meal-note').value = '';
+    removeImg({ stopPropagation: () => {} });
+    document.getElementById('upload-progress').style.transform = 'scaleX(0)';
+
+    // Switch to feed
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-feed').classList.add('active');
+    document.querySelector('.tab-btn').classList.add('active');
+
+  } catch(err) {
+    console.error(err);
+    showToast('❌ Lỗi rồi, thử lại nhé!');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-check"></i> Check-in ngay';
+}
+
+async function toggleLike(id, currentVal) {
+  await window._updateDoc(window._doc(window._db, 'meals', id), { liked: !currentVal });
+}
+
+function timeAgo(ts) {
+  if (!ts) return '';
+  const now = Date.now();
+  const t = ts.toMillis ? ts.toMillis() : ts;
+  const diff = Math.floor((now - t) / 1000);
+  if (diff < 60) return 'vừa xong';
+  if (diff < 3600) return Math.floor(diff/60) + ' phút trước';
+  if (diff < 86400) return Math.floor(diff/3600) + ' giờ trước';
+  return Math.floor(diff/86400) + ' ngày trước';
+}
+
+function renderFeed() {
+  const meals = window._meals || [];
+  const list = document.getElementById('feed-list');
+
+  if (meals.length === 0) {
+    list.innerHTML = `<div class="empty-feed"><div class="emoji">🍽️</div><p>Chưa có gì cả!<br>Bấm Check-in để bắt đầu nào 😋</p></div>`;
+    return;
+  }
+
+  list.innerHTML = meals.map(m => {
+    const emoji = placeholderEmoji[Math.abs(m.name.charCodeAt(0)) % placeholderEmoji.length];
+    const whoClass = m.who === 'me' ? 'av-me' : 'av-ny';
+    const whoLabel = m.who === 'me' ? 'Tôi' : 'NY';
+    const whoColor = m.who === 'me' ? 'var(--me-color)' : 'var(--ny-color)';
+
+    return `
+    <div class="meal-card">
+      <div class="meal-img-wrap">
+        ${m.imgUrl
+          ? `<img src="${m.imgUrl}" alt="${m.name}" loading="lazy">`
+          : `<div class="meal-img-placeholder">${emoji}</div>`
+        }
+        <span class="meal-tag ${tagClass[m.mealType] || 'tag-sang'}">${emojiMap[m.mealType] || ''} ${tagMap[m.mealType] || ''}</span>
+      </div>
+      <div class="meal-body">
+        <div class="meal-top">
+          <div class="meal-name">${m.name}</div>
+          <button class="heart-btn ${m.liked ? 'liked' : ''}" onclick="toggleLike('${m.id}', ${m.liked})">
+            <i class="ti ti-heart${m.liked ? '-filled' : ''}"></i>
+          </button>
+        </div>
+        ${m.note ? `<div class="meal-note">${m.note}</div>` : ''}
+        <div class="meal-meta">
+          <div class="who-badge">
+            <div class="who-dot ${whoClass}" style="color:${whoColor}">${whoLabel}</div>
+            <span style="color:${whoColor}; font-size:12px;">${whoLabel === 'Tôi' ? 'Tôi' : 'Người yêu'}</span>
+          </div>
+          <span class="meal-time">${timeAgo(m.createdAt)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderStats() {
+  const meals = window._meals || [];
+  const now = Date.now();
+  const weekAgo = now - 7 * 86400000;
+
+  const filtered = meals.filter(m => {
+    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
+    if (t < weekAgo) return false;
+    if (statsFilter === 'me') return m.who === 'me';
+    if (statsFilter === 'ny') return m.who === 'ny';
+    return true;
+  });
+
+  // Total
+  document.getElementById('st-total').textContent = filtered.length;
+
+  // Likes
+  document.getElementById('st-likes').textContent = filtered.filter(m => m.liked).length;
+
+  // Favorite
+  const nameCounts = {};
+  filtered.forEach(m => { nameCounts[m.name] = (nameCounts[m.name] || 0) + 1; });
+  const favEntry = Object.entries(nameCounts).sort((a,b) => b[1]-a[1])[0];
+  document.getElementById('st-fav').textContent = favEntry ? favEntry[0] : '—';
+  document.getElementById('st-fav-sub').textContent = favEntry ? favEntry[1] + ' lần' : '';
+
+  // Breakfast
+  const breakfastDays = new Set(filtered.filter(m => m.mealType === 'sang').map(m => {
+    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
+    return new Date(t).toDateString();
+  }));
+  document.getElementById('st-breakfast').textContent = breakfastDays.size + '/7';
+
+  // Bars
+  const types = ['sang','trua','toi','snack'];
+  const counts = {};
+  types.forEach(t => counts[t] = filtered.filter(m => m.mealType === t).length);
+  const maxCount = Math.max(...Object.values(counts), 1);
+  types.forEach(t => {
+    document.getElementById('bar-' + t).style.width = (counts[t] / maxCount * 100) + '%';
+    document.getElementById('cnt-' + t).textContent = counts[t];
+  });
+
+  // Streak
+  const days = ['CN','T2','T3','T4','T5','T6','T7'];
+  const streakRow = document.getElementById('streak-row');
+  const checkedDays = new Set(filtered.map(m => {
+    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
+    return new Date(t).toDateString();
+  }));
+
+  streakRow.innerHTML = Array.from({length:7}, (_,i) => {
+    const d = new Date(now - (6-i) * 86400000);
+    const on = checkedDays.has(d.toDateString());
+    const label = days[d.getDay()];
+    return `<div class="streak-day">
+      <div class="streak-circle ${on ? 'on' : 'off'}">${on ? '✓' : label}</div>
+      <span class="streak-dname">${label}</span>
+    </div>`;
+  }).join('');
+}
+
+function switchStats(btn, filter) {
+  document.querySelectorAll('.ptog-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  statsFilter = filter;
+  renderStats();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+window._meals = [];
+</script>
+</body>
+</html>
