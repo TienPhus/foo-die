@@ -8,343 +8,215 @@
   <meta name="apple-mobile-web-app-title" content="foo'die">
   <meta name="theme-color" content="#1a1208">
   <title>foo'die 🍜</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <style>
     :root {
-      --bg: #0f0d08;
-      --bg2: #1a1710;
-      --bg3: #252018;
-      --bg4: #2e2820;
-      --accent: #e8a030;
-      --accent2: #d45a20;
-      --accent-soft: rgba(232,160,48,0.12);
-      --text: #f0ead8;
-      --text2: #9a9080;
-      --text3: #5a5040;
-      --border: rgba(255,255,255,0.07);
-      --radius: 16px;
-      --radius-sm: 10px;
-      --me-color: #e8a030;
-      --ny-color: #e0608a;
-      --me-bg: rgba(232,160,48,0.15);
-      --ny-bg: rgba(224,96,138,0.15);
+      --bg:#0f0d08;--bg2:#1a1710;--bg3:#252018;--bg4:#2e2820;
+      --accent:#e8a030;--accent-soft:rgba(232,160,48,0.12);
+      --text:#f0ead8;--text2:#9a9080;--text3:#5a5040;
+      --border:rgba(255,255,255,0.07);
+      --radius:16px;--radius-sm:10px;
     }
+    body.theme-light{--bg:#f5f0e8;--bg2:#ede8dc;--bg3:#e5dfd0;--bg4:#ddd6c4;--accent:#c47820;--accent-soft:rgba(196,120,32,0.12);--text:#2a2018;--text2:#7a6850;--text3:#b0a080;--border:rgba(0,0,0,0.08)}
+    body.theme-rose{--bg:#1a0e12;--bg2:#241418;--bg3:#2e1a20;--bg4:#382028;--accent:#e87090;--accent-soft:rgba(232,112,144,0.12);--text:#f5e8ec;--text2:#9a7080;--text3:#5a4048;--border:rgba(255,255,255,0.07)}
+    body.theme-forest{--bg:#0a0f0c;--bg2:#121a14;--bg3:#1a2418;--bg4:#222e20;--accent:#5ec47a;--accent-soft:rgba(94,196,122,0.12);--text:#e8f0ea;--text2:#7a9a80;--text3:#405a44;--border:rgba(255,255,255,0.07)}
+    body.theme-ocean{--bg:#08101a;--bg2:#101824;--bg3:#18202e;--bg4:#202838;--accent:#50b4e8;--accent-soft:rgba(80,180,232,0.12);--text:#e0eef8;--text2:#708090;--text3:#3a4858;--border:rgba(255,255,255,0.07)}
+    body.theme-pastel{--bg:#faf6f8;--bg2:#f2ecf0;--bg3:#eae4e8;--bg4:#e0d8de;--accent:#c060a0;--accent-soft:rgba(192,96,160,0.10);--text:#2a1828;--text2:#806878;--text3:#b09aaa;--border:rgba(0,0,0,0.07)}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    html, body { height: 100%; overflow: hidden; background: var(--bg); }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* PHONE WRAPPER */
-    .app {
-      width: 100%;
-      max-width: 420px;
-      height: 100%;
-      max-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-    }
-
-    /* STATUS BAR AREA */
-    .status-area {
-      height: env(safe-area-inset-top, 20px);
-      min-height: 20px;
-      background: var(--bg);
-      flex-shrink: 0;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;overflow:hidden;background:var(--bg)}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);display:flex;justify-content:center;align-items:center;transition:background .3s,color .3s}
+    .app{width:100%;max-width:420px;height:100%;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);background-size:cover;background-position:center;transition:background .3s}
+    .status-area{height:env(safe-area-inset-top,20px);min-height:20px;flex-shrink:0}
 
     /* HEADER */
-    .header {
-      padding: 12px 20px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-shrink: 0;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-    }
-
-    .header-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -0.5px;
-    }
-
-    .header-logo span { color: var(--text2); font-weight: 400; font-size: 18px; }
-
-    .header-avatars { display: flex; gap: 6px; align-items: center; }
-    .avatar {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
-      border: 1.5px solid transparent;
-    }
-    .av-me { background: var(--me-bg); color: var(--me-color); border-color: var(--me-color); }
-    .av-ny { background: var(--ny-bg); color: var(--ny-color); border-color: var(--ny-color); }
+    .header{padding:10px 16px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.25);backdrop-filter:blur(12px)}
+    .header-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--accent)}
+    .header-logo span{color:var(--text2);font-weight:400;font-size:18px}
+    .header-right{display:flex;align-items:center;gap:10px}
+    .header-user{font-size:13px;font-weight:500;color:var(--text2)}
+    .icon-btn{background:none;border:none;cursor:pointer;color:var(--text2);font-size:22px;padding:4px;line-height:1;transition:color .2s}
+    .icon-btn:active{color:var(--accent)}
 
     /* PAGES */
-    .pages { flex: 1; overflow: hidden; position: relative; }
-    .page { position: absolute; inset: 0; overflow-y: auto; display: none; flex-direction: column; }
-    .page.active { display: flex; }
-    .page::-webkit-scrollbar { display: none; }
+    .pages{flex:1;overflow:hidden;position:relative}
+    .page{position:absolute;inset:0;overflow-y:auto;display:none;flex-direction:column}
+    .page.active{display:flex}
+    .page::-webkit-scrollbar{display:none}
 
-    /* FEED PAGE */
-    .feed-list { padding: 14px 16px 100px; display: flex; flex-direction: column; gap: 12px; }
+    /* FEED */
+    .feed-list{padding:14px 16px 100px;display:flex;flex-direction:column;gap:12px}
+    .meal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .15s}
+    .meal-card:active{transform:scale(.98)}
+    .meal-img-wrap{width:100%;height:190px;position:relative;background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .meal-img-wrap img{width:100%;height:100%;object-fit:cover}
+    .meal-img-placeholder{font-size:54px}
+    .meal-tag{position:absolute;top:10px;right:10px;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:500;backdrop-filter:blur(8px)}
+    .tag-sang{background:rgba(232,160,48,.85);color:#1a1208}
+    .tag-trua{background:rgba(50,180,120,.85);color:#0d2018}
+    .tag-toi{background:rgba(100,120,220,.85);color:#0d1028}
+    .tag-snack{background:rgba(220,100,60,.85);color:#1a0d08}
+    .meal-body{padding:12px 14px}
+    .meal-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+    .meal-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--text);line-height:1.3}
+    .heart-btn{background:none;border:none;cursor:pointer;padding:2px 4px;font-size:20px;color:var(--text3);transition:color .2s,transform .15s}
+    .heart-btn.liked{color:#e05070}
+    .heart-btn:active{transform:scale(1.3)}
+    .meal-note{font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.5}
+    .meal-meta{display:flex;align-items:center;gap:8px}
+    .who-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:500}
+    .meal-time{font-size:12px;color:var(--text3);margin-left:auto}
+    .empty-feed{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:12px;color:var(--text3);text-align:center}
+    .empty-feed .big-emoji{font-size:48px}
+    .empty-feed p{font-size:14px;line-height:1.6}
 
-    .meal-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: transform 0.15s;
-    }
-    .meal-card:active { transform: scale(0.98); }
+    /* CHECK-IN */
+    .page-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);padding:16px 16px 0}
+    .checkin-wrap{padding:16px 16px 100px;display:flex;flex-direction:column;gap:16px}
+    .upload-area{border:1.5px dashed var(--border);border-radius:var(--radius);height:170px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;background:var(--bg2);overflow:hidden;position:relative;transition:border-color .2s}
+    .upload-area:active{border-color:var(--accent)}
+    .upload-area i{font-size:30px;color:var(--accent)}
+    .upload-area span{font-size:13px;color:var(--text2)}
+    .upload-area img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .remove-img-btn{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;border:none;cursor:pointer;font-size:14px;display:none;align-items:center;justify-content:center;z-index:2}
+    .upload-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);transform-origin:left;transform:scaleX(0);transition:transform .3s}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:11px;color:var(--text2);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+    .field input,.field textarea{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;-webkit-appearance:none}
+    .field input:focus,.field textarea:focus{border-color:var(--accent)}
+    .field textarea{resize:none;height:80px;line-height:1.5}
+    .field input::placeholder,.field textarea::placeholder{color:var(--text3)}
+    .type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .type-btn{padding:10px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg2);font-size:13px;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:'DM Sans',sans-serif;transition:all .15s}
+    .type-btn.selected{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+    .submit-btn{background:var(--accent);color:#1a1208;border:none;border-radius:var(--radius-sm);padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s,transform .15s}
+    .submit-btn:active{transform:scale(.97)}
+    .submit-btn:disabled{opacity:.5;cursor:not-allowed}
 
-    .meal-img-wrap {
-      width: 100%; height: 180px; position: relative;
-      background: var(--bg3);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    .meal-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .meal-img-placeholder { font-size: 52px; }
+    /* STATS */
+    .stats-wrap{padding:16px 16px 100px;display:flex;flex-direction:column;gap:16px}
+    .person-toggle{display:flex;background:var(--bg2);border-radius:var(--radius-sm);padding:3px;gap:3px;border:1px solid var(--border)}
+    .ptog-btn{flex:1;padding:8px;border:none;background:none;border-radius:8px;font-size:13px;cursor:pointer;color:var(--text2);font-family:'DM Sans',sans-serif;transition:all .2s}
+    .ptog-btn.active{background:var(--bg4);color:var(--text);font-weight:500}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+    .stat-label{font-size:11px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    .stat-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text)}
+    .stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
+    .section-label{font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;font-weight:500}
+    .bar-list{display:flex;flex-direction:column;gap:10px}
+    .bar-row{display:flex;align-items:center;gap:10px}
+    .bar-label{font-size:13px;color:var(--text2);width:52px;flex-shrink:0}
+    .bar-track{flex:1;height:7px;background:var(--bg3);border-radius:99px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:99px;transition:width .5s ease}
+    .bar-count{font-size:13px;color:var(--text2);width:20px;text-align:right}
+    .streak-section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px}
+    .streak-header{display:flex;align-items:center;justify-content:space-between}
+    .streak-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--text)}
+    .streak-count{font-size:28px;font-weight:700;color:var(--accent);font-family:'Playfair Display',serif}
+    .streak-sub{font-size:11px;color:var(--text3)}
+    .streak-row{display:flex;gap:4px;justify-content:space-between}
+    .streak-day{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+    .s-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+    .s-circle.on{background:var(--accent);color:#1a1208}
+    .s-circle.off{background:var(--bg3);color:var(--text3)}
+    .s-dname{font-size:9px;color:var(--text3)}
+    .milestones-list{display:flex;flex-direction:column;gap:8px}
+    .ms-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s}
+    .ms-item.unlocked{border-color:var(--accent)}
+    .ms-icon{width:40px;height:40px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .ms-item.unlocked .ms-icon{background:var(--accent-soft)}
+    .ms-info{flex:1}
+    .ms-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px}
+    .ms-sub{font-size:12px;color:var(--text2)}
+    .ms-lock{font-size:18px;color:var(--text3)}
+    .ms-item.unlocked .ms-lock{color:var(--accent)}
 
-    .meal-tag {
-      position: absolute; top: 10px; right: 10px;
-      padding: 3px 10px; border-radius: 99px;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.3px;
-      backdrop-filter: blur(8px);
-    }
-    .tag-sang { background: rgba(232,160,48,0.85); color: #1a1208; }
-    .tag-trua { background: rgba(50,180,120,0.85); color: #0d2018; }
-    .tag-toi  { background: rgba(100,120,220,0.85); color: #0d1028; }
-    .tag-snack { background: rgba(220,100,60,0.85); color: #1a0d08; }
+    /* SETTINGS */
+    .settings-wrap{padding:16px 16px 100px;display:flex;flex-direction:column;gap:20px}
+    .settings-section{display:flex;flex-direction:column;gap:10px}
+    .stg-title{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+    .stg-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+    .stg-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border)}
+    .stg-item:last-child{border-bottom:none}
+    .stg-icon{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);flex-shrink:0}
+    .stg-label{flex:1;font-size:14px;color:var(--text)}
+    .stg-val{font-size:13px;color:var(--text3)}
+    .stg-item input{background:none;border:none;outline:none;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;text-align:right;width:160px}
+    .stg-item input::placeholder{color:var(--text3)}
+    .stg-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+    .stg-btn:active{border-color:var(--accent);color:var(--accent)}
+    .theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .theme-btn{border-radius:var(--radius-sm);padding:10px 6px;border:1.5px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text2);transition:border-color .2s}
+    .theme-btn.active{border-color:var(--accent);color:var(--accent)}
+    .theme-swatch{width:32px;height:32px;border-radius:50%}
+    .wp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .wp-btn{border-radius:var(--radius-sm);height:70px;border:1.5px solid var(--border);cursor:pointer;overflow:hidden;position:relative;background:var(--bg3);transition:border-color .2s}
+    .wp-btn.active{border-color:var(--accent)}
+    .wp-btn span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.8);text-align:center}
+    .wp-check{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#1a1208;font-size:10px;display:none;align-items:center;justify-content:center;font-weight:700}
+    .wp-btn.active .wp-check{display:flex}
 
-    .meal-body { padding: 12px 14px; }
-    .meal-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
-    .meal-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.3; }
-    .heart-btn { background: none; border: none; cursor: pointer; padding: 2px 4px; font-size: 20px; color: var(--text3); transition: color 0.2s, transform 0.15s; }
-    .heart-btn.liked { color: #e05070; }
-    .heart-btn:active { transform: scale(1.3); }
+    /* LOGIN SCREEN */
+    .login-screen{position:fixed;inset:0;background:var(--bg);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+    .login-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:32px 24px;max-width:340px;width:100%;text-align:center}
+    .login-logo{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--accent);margin-bottom:4px}
+    .login-logo span{color:var(--text2);font-weight:400}
+    .login-tagline{font-size:13px;color:var(--text2);margin-bottom:28px}
+    .login-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;text-align:left;display:block;margin-bottom:6px}
+    .login-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 16px;font-size:16px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;-webkit-appearance:none;text-align:center;margin-bottom:16px;transition:border-color .2s}
+    .login-input:focus{border-color:var(--accent)}
+    .login-btn{background:var(--accent);color:#1a1208;border:none;border-radius:var(--radius-sm);padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%}
+    .login-hint{font-size:12px;color:var(--text3);margin-top:14px;line-height:1.6}
 
-    .meal-note { font-size: 13px; color: var(--text2); margin-bottom: 8px; line-height: 1.5; }
-    .meal-meta { display: flex; align-items: center; gap: 6px; }
-    .who-badge {
-      display: flex; align-items: center; gap: 5px;
-      font-size: 12px; font-weight: 500;
-    }
-    .who-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; }
-    .meal-time { font-size: 12px; color: var(--text3); margin-left: auto; }
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:340px;width:100%;text-align:center}
+    .modal-emoji{font-size:52px;margin-bottom:12px}
+    .modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+    .modal-body{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px}
+    .modal-secret{background:var(--bg3);border-radius:var(--radius-sm);padding:14px;font-size:14px;color:var(--accent);font-style:italic;line-height:1.7;margin-bottom:20px;border:1px solid var(--border)}
+    .modal-close{background:var(--accent);color:#1a1208;border:none;border-radius:var(--radius-sm);padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-    .empty-feed {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 60px 20px; gap: 12px; color: var(--text3); text-align: center;
-    }
-    .empty-feed .emoji { font-size: 48px; }
-    .empty-feed p { font-size: 14px; line-height: 1.6; }
+    /* TAB */
+    .tab-bar{display:flex;background:var(--bg2);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+    .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0 8px;gap:3px;border:none;background:none;cursor:pointer;color:var(--text3);font-size:10px;font-family:'DM Sans',sans-serif;transition:color .2s}
+    .tab-btn i{font-size:22px}
+    .tab-btn.active{color:var(--accent)}
 
-    /* CHECKIN PAGE */
-    .checkin-wrap { padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
-
-    .page-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px; font-weight: 700;
-      color: var(--text);
-      padding: 16px 16px 0;
-    }
-
-    .upload-area {
-      border: 1.5px dashed var(--border);
-      border-radius: var(--radius);
-      height: 170px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; cursor: pointer;
-      background: var(--bg2);
-      transition: border-color 0.2s, background 0.2s;
-      overflow: hidden; position: relative;
-    }
-    .upload-area:active { border-color: var(--accent); background: var(--accent-soft); }
-    .upload-area i { font-size: 30px; color: var(--accent); }
-    .upload-area span { font-size: 13px; color: var(--text2); }
-    .upload-area img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .remove-img-btn {
-      position: absolute; top: 8px; right: 8px;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(0,0,0,0.6); color: white;
-      border: none; cursor: pointer; font-size: 14px;
-      display: none; align-items: center; justify-content: center;
-      z-index: 2;
-    }
-
-    .field { display: flex; flex-direction: column; gap: 6px; }
-    .field label { font-size: 12px; color: var(--text2); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
-    .field input, .field textarea {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 11px 14px;
-      font-size: 15px; color: var(--text); font-family: 'DM Sans', sans-serif;
-      outline: none; transition: border-color 0.2s;
-      -webkit-appearance: none;
-    }
-    .field input:focus, .field textarea:focus { border-color: var(--accent); }
-    .field textarea { resize: none; height: 80px; line-height: 1.5; }
-    .field input::placeholder, .field textarea::placeholder { color: var(--text3); }
-
-    .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .type-btn {
-      padding: 10px 8px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg2);
-      font-size: 13px; color: var(--text2);
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.15s;
-    }
-    .type-btn.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
-
-    .who-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .who-btn {
-      padding: 10px 8px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg2);
-      font-size: 13px; color: var(--text2);
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.15s;
-    }
-    .who-btn.me.selected { border-color: var(--me-color); background: var(--me-bg); color: var(--me-color); }
-    .who-btn.ny.selected { border-color: var(--ny-color); background: var(--ny-bg); color: var(--ny-color); }
-
-    .submit-btn {
-      background: var(--accent); color: #1a1208;
-      border: none; border-radius: var(--radius-sm);
-      padding: 14px; font-size: 15px; font-weight: 600;
-      cursor: pointer; font-family: 'DM Sans', sans-serif;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-    .submit-btn:active { transform: scale(0.97); }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .submit-btn.loading { opacity: 0.7; }
-
-    /* STATS PAGE */
-    .stats-wrap { padding: 16px 16px 100px; display: flex; flex-direction: column; gap: 16px; }
-
-    .person-toggle {
-      display: flex; background: var(--bg2); border-radius: var(--radius-sm);
-      padding: 3px; gap: 3px; border: 1px solid var(--border);
-    }
-    .ptog-btn {
-      flex: 1; padding: 8px; border: none; background: none;
-      border-radius: 8px; font-size: 13px; cursor: pointer;
-      color: var(--text2); font-family: 'DM Sans', sans-serif;
-      transition: all 0.2s;
-    }
-    .ptog-btn.active {
-      background: var(--bg4); color: var(--text);
-      font-weight: 500; box-shadow: 0 0 0 1px var(--border);
-    }
-
-    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .stat-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 14px;
-    }
-    .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .stat-val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--text); }
-    .stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
-
-    .section-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
-
-    .bar-list { display: flex; flex-direction: column; gap: 10px; }
-    .bar-row { display: flex; align-items: center; gap: 10px; }
-    .bar-label { font-size: 13px; color: var(--text2); width: 52px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 7px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
-    .bar-count { font-size: 13px; color: var(--text2); width: 20px; text-align: right; }
-
-    .streak-row { display: flex; gap: 6px; }
-    .streak-day { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .streak-circle {
-      width: 34px; height: 34px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 600;
-    }
-    .streak-circle.on { background: var(--accent); color: #1a1208; }
-    .streak-circle.off { background: var(--bg3); color: var(--text3); }
-    .streak-dname { font-size: 10px; color: var(--text3); }
-
-    /* TAB BAR */
-    .tab-bar {
-      display: flex;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-    .tab-btn {
-      flex: 1; display: flex; flex-direction: column; align-items: center;
-      justify-content: center; padding: 10px 0 8px;
-      gap: 3px; border: none; background: none; cursor: pointer;
-      color: var(--text3); font-size: 10px; font-family: 'DM Sans', sans-serif;
-      transition: color 0.2s;
-    }
-    .tab-btn i { font-size: 22px; }
-    .tab-btn.active { color: var(--accent); }
-
-    /* TOAST */
-    .toast {
-      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--bg3); border: 1px solid var(--border);
-      color: var(--text); padding: 11px 20px; border-radius: 99px;
-      font-size: 13px; white-space: nowrap; z-index: 999;
-      opacity: 0; transition: opacity 0.3s, transform 0.3s;
-      pointer-events: none;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    /* LOADING */
-    .spinner {
-      width: 18px; height: 18px; border: 2px solid rgba(26,18,8,0.3);
-      border-top-color: #1a1208; border-radius: 50%; animation: spin 0.6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* UPLOAD PROGRESS */
-    .upload-progress {
-      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-      background: var(--accent); transform-origin: left;
-      transform: scaleX(0); transition: transform 0.3s;
-    }
-
-    /* CONNECTING STATE */
-    .connecting { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 14px; color: var(--text2); }
-    .connecting .big-spinner { width: 36px; height: 36px; border: 3px solid var(--bg3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:11px 20px;border-radius:99px;font-size:13px;white-space:nowrap;z-index:999;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    .spinner{width:18px;height:18px;border:2px solid rgba(26,18,8,.3);border-top-color:#1a1208;border-radius:50%;animation:spin .6s linear infinite}
+    .big-spinner{width:36px;height:36px;border:3px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .connecting{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;color:var(--text2)}
   </style>
 </head>
 <body>
-<div class="app">
-  <div class="status-area"></div>
 
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">foo<span>'</span>die</div>
+    <div class="login-tagline">Nhật ký ăn uống cụa đôi taaaa 🍜</div>
+    <label class="login-label">Tên là gì?</label>
+    <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
+    <button class="login-btn" onclick="doLogin()">Vào thôi! </button>
+    <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <div class="status-area"></div>
   <div class="header">
     <div class="header-logo">foo<span>'</span>die</div>
-    <div class="header-avatars">
-      <div class="avatar av-me" title="Tôi">Tui</div>
-      <div class="avatar av-ny" title="Người yêu">NY</div>
+    <div class="header-right">
+      <span class="header-user" id="header-user"></span>
+      <button class="icon-btn" onclick="switchTab('settings', document.querySelectorAll('.tab-btn')[3])" title="Cài đặt">
+        <i class="ti ti-settings"></i>
+      </button>
     </div>
   </div>
 
@@ -371,17 +243,8 @@
 
         <div class="field">
           <label>Tên món ăn</label>
-          <input type="text" id="meal-name" placeholder="vd: Phở bò, Cơm tấm...">
+          <input type="text" id="meal-name" placeholder="vd: Phở bò, Cơm tấm, Bánh mì...">
         </div>
-
-        <div class="field">
-          <label>Ai ăn?</label>
-          <div class="who-grid">
-            <button class="who-btn me selected" onclick="selectWho(this,'me')">🙋 Tôi</button>
-            <button class="who-btn ny" onclick="selectWho(this,'ny')">💕 Người yêu</button>
-          </div>
-        </div>
-
         <div class="field">
           <label>Bữa ăn</label>
           <div class="type-grid">
@@ -391,12 +254,10 @@
             <button class="type-btn" onclick="selectType(this,'snack')">🧃 Snack</button>
           </div>
         </div>
-
         <div class="field">
           <label>Ghi chú</label>
           <textarea id="meal-note" placeholder="Ngon không? Ăn ở đâu? Cảm nhận..."></textarea>
         </div>
-
         <button class="submit-btn" id="submit-btn" onclick="submitCheckin()">
           <i class="ti ti-check"></i> Check-in ngay
         </button>
@@ -407,297 +268,347 @@
     <div class="page" id="page-stats">
       <div class="page-title">Thống kê 📊</div>
       <div class="stats-wrap">
-        <div class="person-toggle">
+        <div class="person-toggle" id="person-toggle">
           <button class="ptog-btn active" onclick="switchStats(this,'both')">Cả hai</button>
-          <button class="ptog-btn" onclick="switchStats(this,'me')">Tôi</button>
-          <button class="ptog-btn" onclick="switchStats(this,'ny')">Người yêu</button>
+          <button class="ptog-btn" id="ptog-me" onclick="switchStats(this,'me')">Tôi</button>
+          <button class="ptog-btn" id="ptog-ny" onclick="switchStats(this,'ny')">NY</button>
         </div>
-
         <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-label">Tổng bữa</div>
-            <div class="stat-val" id="st-total">—</div>
-            <div class="stat-sub">tuần này</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Thả tim</div>
-            <div class="stat-val" id="st-likes">—</div>
-            <div class="stat-sub">bữa được thích</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Hay ăn nhất</div>
-            <div class="stat-val" id="st-fav" style="font-size:15px; padding-top:6px;">—</div>
-            <div class="stat-sub" id="st-fav-sub"></div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Bữa sáng</div>
-            <div class="stat-val" id="st-breakfast">—</div>
-            <div class="stat-sub">ngày có ăn sáng</div>
-          </div>
+          <div class="stat-card"><div class="stat-label">Tổng bữa</div><div class="stat-val" id="st-total">—</div><div class="stat-sub">tuần này</div></div>
+          <div class="stat-card"><div class="stat-label">Thả tim</div><div class="stat-val" id="st-likes">—</div><div class="stat-sub">bữa được thích</div></div>
+          <div class="stat-card"><div class="stat-label">Hay ăn nhất</div><div class="stat-val" id="st-fav" style="font-size:14px;padding-top:6px">—</div><div class="stat-sub" id="st-fav-sub"></div></div>
+          <div class="stat-card"><div class="stat-label">Ăn sáng</div><div class="stat-val" id="st-breakfast">—</div><div class="stat-sub">ngày/tuần này</div></div>
         </div>
-
-        <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex;flex-direction:column;gap:10px">
           <div class="section-label">Phân bố bữa ăn</div>
           <div class="bar-list">
-            <div class="bar-row">
-              <span class="bar-label">🌅 Sáng</span>
-              <div class="bar-track"><div class="bar-fill" id="bar-sang" style="background:#e8a030;width:0%"></div></div>
-              <span class="bar-count" id="cnt-sang">0</span>
+            <div class="bar-row"><span class="bar-label">🌅 Sáng</span><div class="bar-track"><div class="bar-fill" id="bar-sang" style="background:#e8a030;width:0%"></div></div><span class="bar-count" id="cnt-sang">0</span></div>
+            <div class="bar-row"><span class="bar-label">☀️ Trưa</span><div class="bar-track"><div class="bar-fill" id="bar-trua" style="background:#32b478;width:0%"></div></div><span class="bar-count" id="cnt-trua">0</span></div>
+            <div class="bar-row"><span class="bar-label">🌙 Tối</span><div class="bar-track"><div class="bar-fill" id="bar-toi" style="background:#6478dc;width:0%"></div></div><span class="bar-count" id="cnt-toi">0</span></div>
+            <div class="bar-row"><span class="bar-label">🧃 Snack</span><div class="bar-track"><div class="bar-fill" id="bar-snack" style="background:#dc643c;width:0%"></div></div><span class="bar-count" id="cnt-snack">0</span></div>
+          </div>
+        </div>
+        <div class="streak-section">
+          <div class="streak-header">
+            <div>
+              <div class="streak-title">🔥 Chuỗi ăn sáng đôi</div>
+              <div style="font-size:12px;color:var(--text3);margin-top:2px">Cả hai ăn trước 10h · cùng ngày</div>
             </div>
-            <div class="bar-row">
-              <span class="bar-label">☀️ Trưa</span>
-              <div class="bar-track"><div class="bar-fill" id="bar-trua" style="background:#32b478;width:0%"></div></div>
-              <span class="bar-count" id="cnt-trua">0</span>
+            <div style="text-align:right">
+              <div class="streak-count" id="streak-num">0</div>
+              <div class="streak-sub">ngày liên tiếp</div>
             </div>
-            <div class="bar-row">
-              <span class="bar-label">🌙 Tối</span>
-              <div class="bar-track"><div class="bar-fill" id="bar-toi" style="background:#6478dc;width:0%"></div></div>
-              <span class="bar-count" id="cnt-toi">0</span>
+          </div>
+          <div class="streak-row" id="streak-row"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="section-label">🏆 Cột mốc bí mật</div>
+          <div class="milestones-list" id="milestones-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="page-settings">
+      <div class="page-title">Cài đặt ⚙️</div>
+      <div class="settings-wrap">
+
+        <div class="settings-section">
+          <div class="stg-title">Tài khoản</div>
+          <div class="stg-row">
+            <div class="stg-item">
+              <div class="stg-icon"><i class="ti ti-user"></i></div>
+              <div class="stg-label">Tên của tôi</div>
+              <input type="text" id="cfg-username" placeholder="Tên bạn" maxlength="20" onblur="saveUsername(this.value)">
             </div>
-            <div class="bar-row">
-              <span class="bar-label">🧃 Snack</span>
-              <div class="bar-track"><div class="bar-fill" id="bar-snack" style="background:#dc643c;width:0%"></div></div>
-              <span class="bar-count" id="cnt-snack">0</span>
+          </div>
+          <button class="stg-btn" onclick="logout()" style="align-self:flex-start">Đổi người dùng</button>
+        </div>
+
+        <div class="settings-section">
+          <div class="stg-title">Màu giao diện</div>
+          <div class="theme-grid">
+            <button class="theme-btn" data-theme="dark" onclick="applyTheme('dark',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0f0d08,#e8a030)"></div>Tối ấm</button>
+            <button class="theme-btn" data-theme="light" onclick="applyTheme('light',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#f5f0e8,#c47820)"></div>Sáng</button>
+            <button class="theme-btn" data-theme="rose" onclick="applyTheme('rose',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#1a0e12,#e87090)"></div>Hoa hồng</button>
+            <button class="theme-btn" data-theme="forest" onclick="applyTheme('forest',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0a0f0c,#5ec47a)"></div>Rừng xanh</button>
+            <button class="theme-btn" data-theme="ocean" onclick="applyTheme('ocean',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#08101a,#50b4e8)"></div>Đại dương</button>
+            <button class="theme-btn" data-theme="pastel" onclick="applyTheme('pastel',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#faf6f8,#c060a0)"></div>Pastel</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="stg-title">Hình nền</div>
+          <div class="wp-grid">
+            <button class="wp-btn" data-wp="none" onclick="applyWallpaper('none',this)"><span style="color:var(--text3)">Không có</span><div class="wp-check">✓</div></button>
+            <button class="wp-btn" data-wp="cherry" onclick="applyWallpaper('cherry',this)" style="background:linear-gradient(135deg,#2d1a2e,#6b2d4a,#d4527a)"><span>🌸 Hoa anh đào</span><div class="wp-check">✓</div></button>
+            <button class="wp-btn" data-wp="sunset" onclick="applyWallpaper('sunset',this)" style="background:linear-gradient(135deg,#1a0a08,#8b3a1a,#e87040,#f0c060)"><span>🌅 Hoàng hôn</span><div class="wp-check">✓</div></button>
+            <button class="wp-btn" data-wp="night" onclick="applyWallpaper('night',this)" style="background:linear-gradient(135deg,#080818,#1a1a40,#3040a0)"><span>🌙 Đêm khuya</span><div class="wp-check">✓</div></button>
+            <button class="wp-btn" data-wp="matcha" onclick="applyWallpaper('matcha',this)" style="background:linear-gradient(135deg,#0d180f,#2a4a2e,#5a9060)"><span>🍵 Matcha</span><div class="wp-check">✓</div></button>
+            <button class="wp-btn" data-wp="candy" onclick="applyWallpaper('candy',this)" style="background:linear-gradient(135deg,#2a0a20,#7a2060,#e060a0)"><span>🍬 Kẹo ngọt</span><div class="wp-check">✓</div></button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="stg-title">Thông tin</div>
+          <div class="stg-row">
+            <div class="stg-item">
+              <div class="stg-icon"><i class="ti ti-info-circle"></i></div>
+              <div class="stg-label">foo'die v3.0</div>
+              <div class="stg-val">Made with ❤️</div>
             </div>
           </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div class="section-label">Check-in 7 ngày qua</div>
-          <div class="streak-row" id="streak-row"></div>
-        </div>
       </div>
     </div>
   </div>
 
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('feed',this)">
-      <i class="ti ti-layout-list"></i>
-      <span>Feed</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('checkin',this)">
-      <i class="ti ti-circle-plus"></i>
-      <span>Check-in</span>
-    </button>
-    <button class="tab-btn" onclick="switchTab('stats',this)">
-      <i class="ti ti-chart-bar"></i>
-      <span>Thống kê</span>
-    </button>
+    <button class="tab-btn active" onclick="switchTab('feed',this)"><i class="ti ti-layout-list"></i><span>Feed</span></button>
+    <button class="tab-btn" onclick="switchTab('checkin',this)"><i class="ti ti-circle-plus"></i><span>Check-in</span></button>
+    <button class="tab-btn" onclick="switchTab('stats',this)"><i class="ti ti-chart-bar"></i><span>Thống kê</span></button>
+    <button class="tab-btn" onclick="switchTab('settings',this)"><i class="ti ti-settings"></i><span>Cài đặt</span></button>
+  </div>
+</div>
+
+<!-- SECRET MODAL -->
+<div class="modal-overlay" id="secret-modal">
+  <div class="modal">
+    <div class="modal-emoji" id="modal-emoji">🎉</div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-secret" id="modal-secret"></div>
+    <button class="modal-close" onclick="closeModal()">Tuyệt vời! 💕</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, updateDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyALBmKyQk3GRHWDRUfdKhwdvz9fXt9cW0M",
-  authDomain: "foo-die-47235.firebaseapp.com",
-  projectId: "foo-die-47235",
-  storageBucket: "foo-die-47235.firebasestorage.app",
-  messagingSenderId: "432831586335",
-  appId: "1:432831586335:web:6ff0b75d8c2742255a352a"
-};
+const fbapp = initializeApp({
+  apiKey:"AIzaSyALBmKyQk3GRHWDRUfdKhwdvz9fXt9cW0M",
+  authDomain:"foo-die-47235.firebaseapp.com",
+  projectId:"foo-die-47235",
+  storageBucket:"foo-die-47235.firebasestorage.app",
+  messagingSenderId:"432831586335",
+  appId:"1:432831586335:web:6ff0b75d8c2742255a352a"
+});
+const db=getFirestore(fbapp), storage=getStorage(fbapp);
+window._db=db; window._storage=storage;
+window._collection=collection; window._addDoc=addDoc;
+window._updateDoc=updateDoc; window._doc=doc;
+window._ref=ref; window._uploadBytesResumable=uploadBytesResumable;
+window._getDownloadURL=getDownloadURL; window._serverTimestamp=serverTimestamp;
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-window._db = db;
-window._storage = storage;
-window._collection = collection;
-window._addDoc = addDoc;
-window._updateDoc = updateDoc;
-window._doc = doc;
-window._ref = ref;
-window._uploadBytesResumable = uploadBytesResumable;
-window._getDownloadURL = getDownloadURL;
-window._serverTimestamp = serverTimestamp;
-
-// Real-time feed listener
-const q = query(collection(db, 'meals'), orderBy('createdAt', 'desc'));
-onSnapshot(q, (snapshot) => {
-  window._meals = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderFeed();
-  renderStats();
+onSnapshot(query(collection(db,'meals'),orderBy('createdAt','desc')), snap=>{
+  window._meals=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderFeed(); renderStats();
 });
 </script>
 
 <script>
-// State
-let selectedType = 'sang';
-let selectedWho = 'me';
-let selectedFile = null;
-let statsFilter = 'both';
+const MILESTONES=[
+  {days:3,  emoji:'🌱',title:'Mầm xanh',         secret:'3 ngày đầu tiên rồi! Hãy nhắn cho nhau một tin nhắn yêu thương ngay sáng nay 🌞'},
+  {days:7,  emoji:'🔥',title:'Một tuần bùng cháy',secret:'7 ngày liên tiếp! Cùng nấu bữa sáng cho nhau cuối tuần này nhé — dù chỉ là trứng chiên cũng ngọt lắm 🍳'},
+  {days:14, emoji:'💫',title:'Hai tuần lung linh', secret:'14 ngày! Thử viết một tờ giấy nhắn yêu thương rồi giấu vào túi xách của nhau sáng mai ✉️'},
+  {days:30, emoji:'🌙',title:'Một tháng trăng',    secret:'Cả tháng ăn sáng cùng nhau! Hẹn một buổi ăn sáng tại quán yêu thích của hai người ☕'},
+  {days:100,emoji:'💎',title:'100 ngày kim cương', secret:'100 NGÀY! Xứng đáng có một chuyến đi ngắn ngày — ăn sáng ở một nơi hoàn toàn mới 🗺️'},
+  {days:365,emoji:'👑',title:'Một năm hoàng kim',  secret:'MỘT NĂM TRỌN VẸN! Tổ chức một bữa sáng kiểu nhà hàng ngay tại nhà để kỷ niệm nhé 🥂'},
+];
+const WALLPAPERS={none:'none',cherry:'linear-gradient(160deg,#2d1a2e,#6b2d4a,#d4527a)',sunset:'linear-gradient(160deg,#1a0a08,#8b3a1a,#e87040,#f0c060)',night:'linear-gradient(160deg,#080818,#1a1a40,#3040a0)',matcha:'linear-gradient(160deg,#0d180f,#2a4a2e,#5a9060)',candy:'linear-gradient(160deg,#2a0a20,#7a2060,#e060a0)'};
+const tagMap={sang:'Sáng',trua:'Trưa',toi:'Tối',snack:'Snack'};
+const tagCls={sang:'tag-sang',trua:'tag-trua',toi:'tag-toi',snack:'tag-snack'};
+const emojiMap={sang:'🌅',trua:'☀️',toi:'🌙',snack:'🧃'};
+const icons=['🍜','🍱','🥗','🍣','🍛','🥘','🍝','🥩','🍲','🍚'];
+// user colours cycle for unknown users
+const COLORS=['#e8a030','#e0608a','#5ec47a','#50b4e8','#c060a0','#e87040'];
+let selectedType='sang', selectedFile=null, statsFilter='both';
+window._meals=[];
 
-const tagMap = { sang:'Sáng', trua:'Trưa', toi:'Tối', snack:'Snack' };
-const tagClass = { sang:'tag-sang', trua:'tag-trua', toi:'tag-toi', snack:'tag-snack' };
-const emojiMap = { sang:'🌅', trua:'☀️', toi:'🌙', snack:'🧃' };
-const placeholderEmoji = ['🍜','🍱','🥗','🍣','🍛','🥘','🍝','🥩','🍲','🍚'];
-
-function switchTab(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
-  if (name === 'stats') renderStats();
+/* ── username helpers ── */
+function getMe(){ return localStorage.getItem('username')||''; }
+function userColor(name){
+  let h=0; for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))&0xffff;
+  return COLORS[h%COLORS.length];
 }
 
-function selectType(btn, val) {
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedType = val;
+/* ── init ── */
+function initApp(){
+  const u=getMe();
+  if(u){
+    document.getElementById('login-screen').style.display='none';
+    applyUserUI(u);
+  } else {
+    document.getElementById('login-input').focus();
+  }
+  applyThemeSilent(localStorage.getItem('theme')||'dark');
+  applyWallpaperSilent(localStorage.getItem('wallpaper')||'none');
 }
 
-function selectWho(btn, val) {
-  document.querySelectorAll('.who-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  selectedWho = val;
+function doLogin(){
+  const val=document.getElementById('login-input').value.trim();
+  if(!val){ showToast('⚠️ Nhập tên đi!'); return; }
+  localStorage.setItem('username', val);
+  document.getElementById('login-screen').style.display='none';
+  applyUserUI(val);
+}
+document.getElementById('login-input').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+function applyUserUI(name){
+  document.getElementById('header-user').textContent = name;
+  document.getElementById('cfg-username').value = name;
+  // update stats toggle labels
+  document.getElementById('ptog-me').textContent = name;
 }
 
-function handleImgSelect(input) {
-  if (input.files && input.files[0]) {
-    selectedFile = input.files[0];
-    const reader = new FileReader();
-    reader.onload = e => {
-      const prev = document.getElementById('preview-img');
-      prev.src = e.target.result;
-      prev.style.display = 'block';
-      document.getElementById('remove-img-btn').style.display = 'flex';
-      document.querySelector('.upload-area i').style.display = 'none';
-      document.querySelector('.upload-area span').style.display = 'none';
+function saveUsername(val){
+  if(!val.trim()) return;
+  localStorage.setItem('username', val.trim());
+  applyUserUI(val.trim());
+  renderFeed();
+}
+
+function logout(){
+  if(!confirm('Đổi tên người dùng? App sẽ quay về màn hình nhập tên.')) return;
+  localStorage.removeItem('username');
+  document.getElementById('login-input').value='';
+  document.getElementById('login-screen').style.display='flex';
+  setTimeout(()=>document.getElementById('login-input').focus(),100);
+}
+
+/* ── theme / wallpaper ── */
+function applyThemeSilent(t){ document.body.className=t==='dark'?'':'theme-'+t; document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===t)); }
+function applyTheme(t){ localStorage.setItem('theme',t); applyThemeSilent(t); }
+function applyWallpaperSilent(wp){ document.getElementById('app').style.backgroundImage=WALLPAPERS[wp]||'none'; document.querySelectorAll('.wp-btn').forEach(b=>b.classList.toggle('active',b.dataset.wp===wp)); }
+function applyWallpaper(wp){ localStorage.setItem('wallpaper',wp); applyWallpaperSilent(wp); }
+
+/* ── nav ── */
+function switchTab(name,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(name==='stats'){ renderStats(); renderMilestones(); }
+}
+
+/* ── check-in ── */
+function selectType(btn,val){ document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('selected')); btn.classList.add('selected'); selectedType=val; }
+
+function handleImgSelect(input){
+  if(input.files&&input.files[0]){
+    selectedFile=input.files[0];
+    const r=new FileReader();
+    r.onload=e=>{
+      const p=document.getElementById('preview-img');
+      p.src=e.target.result; p.style.display='block';
+      document.getElementById('remove-img-btn').style.display='flex';
+      document.querySelector('.upload-area i').style.display='none';
+      document.querySelector('.upload-area span').style.display='none';
     };
-    reader.readAsDataURL(input.files[0]);
+    r.readAsDataURL(input.files[0]);
   }
 }
 
-function removeImg(e) {
-  e.stopPropagation();
-  selectedFile = null;
-  document.getElementById('preview-img').style.display = 'none';
-  document.getElementById('remove-img-btn').style.display = 'none';
-  document.querySelector('.upload-area i').style.display = '';
-  document.querySelector('.upload-area span').style.display = '';
-  document.getElementById('file-input').value = '';
+function removeImg(e){
+  if(e) e.stopPropagation();
+  selectedFile=null;
+  document.getElementById('preview-img').style.display='none';
+  document.getElementById('remove-img-btn').style.display='none';
+  document.querySelector('.upload-area i').style.display='';
+  document.querySelector('.upload-area span').style.display='';
+  document.getElementById('file-input').value='';
 }
 
-async function submitCheckin() {
-  const name = document.getElementById('meal-name').value.trim();
-  if (!name) { showToast('⚠️ Nhập tên món đi bạn ơi!'); return; }
-
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner"></div> Đang lưu...';
-
-  try {
-    let imgUrl = '';
-    if (selectedFile) {
-      const storageRef = window._ref(window._storage, 'meals/' + Date.now() + '_' + selectedFile.name);
-      const uploadTask = window._uploadBytesResumable(storageRef, selectedFile);
-      const progress = document.getElementById('upload-progress');
-
-      imgUrl = await new Promise((resolve, reject) => {
-        uploadTask.on('state_changed',
-          snap => {
-            const pct = snap.bytesTransferred / snap.totalBytes;
-            progress.style.transform = 'scaleX(' + pct + ')';
-          },
-          reject,
-          async () => {
-            const url = await window._getDownloadURL(uploadTask.snapshot.ref);
-            resolve(url);
-          }
-        );
+async function submitCheckin(){
+  const me=getMe();
+  if(!me){ showToast('⚠️ Bạn chưa đăng nhập!'); return; }
+  const name=document.getElementById('meal-name').value.trim();
+  if(!name){ showToast('⚠️ Nhập tên món đi bạn ơi!'); return; }
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> Đang lưu...';
+  try{
+    let imgUrl='';
+    if(selectedFile){
+      const sRef=window._ref(window._storage,'meals/'+Date.now()+'_'+selectedFile.name);
+      const task=window._uploadBytesResumable(sRef,selectedFile);
+      const prog=document.getElementById('upload-progress');
+      imgUrl=await new Promise((res,rej)=>{
+        task.on('state_changed',s=>{prog.style.transform='scaleX('+(s.bytesTransferred/s.totalBytes)+')';},rej,async()=>res(await window._getDownloadURL(task.snapshot.ref)));
       });
     }
-
-    await window._addDoc(window._collection(window._db, 'meals'), {
-      name,
-      who: selectedWho,
-      mealType: selectedType,
-      note: document.getElementById('meal-note').value.trim(),
-      imgUrl,
-      liked: false,
-      createdAt: window._serverTimestamp()
+    await window._addDoc(window._collection(window._db,'meals'),{
+      name, username:me, mealType:selectedType,
+      note:document.getElementById('meal-note').value.trim(),
+      imgUrl, liked:false, createdAt:window._serverTimestamp()
     });
-
     showToast('✅ Check-in thành công!');
-    document.getElementById('meal-name').value = '';
-    document.getElementById('meal-note').value = '';
-    removeImg({ stopPropagation: () => {} });
-    document.getElementById('upload-progress').style.transform = 'scaleX(0)';
+    document.getElementById('meal-name').value='';
+    document.getElementById('meal-note').value='';
+    removeImg(null);
+    document.getElementById('upload-progress').style.transform='scaleX(0)';
+    switchTab('feed',document.querySelector('.tab-btn'));
+  }catch(err){ showToast('❌ Lỗi: '+err.message); console.error(err); }
+  btn.disabled=false; btn.innerHTML='<i class="ti ti-check"></i> Check-in ngay';
+}
 
-    // Switch to feed
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-feed').classList.add('active');
-    document.querySelector('.tab-btn').classList.add('active');
+async function toggleLike(id,cur){ await window._updateDoc(window._doc(window._db,'meals',id),{liked:!cur}); }
 
-  } catch(err) {
-    console.error(err);
-    showToast('❌ Lỗi rồi, thử lại nhé!');
+/* ── streak logic ── */
+// cả hai user (2 username khác nhau) phải có bữa sáng trước 10h cùng ngày
+function computeStreak(meals){
+  const byDay={};
+  meals.forEach(m=>{
+    if(m.mealType!=='sang') return;
+    const t=m.createdAt?.toMillis?m.createdAt.toMillis():0;
+    if(!t) return;
+    const d=new Date(t);
+    if(d.getHours()>=10) return;
+    const key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+    if(!byDay[key]) byDay[key]=new Set();
+    byDay[key].add((m.username||m.who||'?').toLowerCase());
+  });
+  // ngày hợp lệ = có ít nhất 2 user khác nhau
+  const validDays=new Set(Object.entries(byDay).filter(([,s])=>s.size>=2).map(([k])=>k));
+  let streak=0;
+  const now=new Date();
+  for(let i=0;i<400;i++){
+    const d=new Date(now); d.setDate(d.getDate()-i);
+    const key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+    if(validDays.has(key)) streak++;
+    else if(i>0) break;
   }
-
-  btn.disabled = false;
-  btn.innerHTML = '<i class="ti ti-check"></i> Check-in ngay';
+  return {streak,validDays};
 }
 
-async function toggleLike(id, currentVal) {
-  await window._updateDoc(window._doc(window._db, 'meals', id), { liked: !currentVal });
-}
-
-function timeAgo(ts) {
-  if (!ts) return '';
-  const now = Date.now();
-  const t = ts.toMillis ? ts.toMillis() : ts;
-  const diff = Math.floor((now - t) / 1000);
-  if (diff < 60) return 'vừa xong';
-  if (diff < 3600) return Math.floor(diff/60) + ' phút trước';
-  if (diff < 86400) return Math.floor(diff/3600) + ' giờ trước';
-  return Math.floor(diff/86400) + ' ngày trước';
-}
-
-function renderFeed() {
-  const meals = window._meals || [];
-  const list = document.getElementById('feed-list');
-
-  if (meals.length === 0) {
-    list.innerHTML = `<div class="empty-feed"><div class="emoji">🍽️</div><p>Chưa có gì cả!<br>Bấm Check-in để bắt đầu nào 😋</p></div>`;
-    return;
-  }
-
-  list.innerHTML = meals.map(m => {
-    const emoji = placeholderEmoji[Math.abs(m.name.charCodeAt(0)) % placeholderEmoji.length];
-    const whoClass = m.who === 'me' ? 'av-me' : 'av-ny';
-    const whoLabel = m.who === 'me' ? 'Tôi' : 'NY';
-    const whoColor = m.who === 'me' ? 'var(--me-color)' : 'var(--ny-color)';
-
-    return `
-    <div class="meal-card">
+/* ── render feed ── */
+function renderFeed(){
+  const meals=window._meals||[], list=document.getElementById('feed-list'), me=getMe();
+  if(!meals.length){ list.innerHTML='<div class="empty-feed"><div class="big-emoji">🍽️</div><p>Chưa có gì cả!<br>Bấm Check-in để bắt đầu nào 😋</p></div>'; return; }
+  list.innerHTML=meals.map(m=>{
+    const uname=m.username||m.who||'?';
+    const color=userColor(uname);
+    const icon=icons[Math.abs((m.name||'').charCodeAt(0)||0)%icons.length];
+    const isMe=uname.toLowerCase()===me.toLowerCase();
+    return `<div class="meal-card">
       <div class="meal-img-wrap">
-        ${m.imgUrl
-          ? `<img src="${m.imgUrl}" alt="${m.name}" loading="lazy">`
-          : `<div class="meal-img-placeholder">${emoji}</div>`
-        }
-        <span class="meal-tag ${tagClass[m.mealType] || 'tag-sang'}">${emojiMap[m.mealType] || ''} ${tagMap[m.mealType] || ''}</span>
+        ${m.imgUrl?`<img src="${m.imgUrl}" alt="${m.name}" loading="lazy">`:`<div class="meal-img-placeholder">${icon}</div>`}
+        <span class="meal-tag ${tagCls[m.mealType]||'tag-sang'}">${emojiMap[m.mealType]||''} ${tagMap[m.mealType]||''}</span>
       </div>
       <div class="meal-body">
         <div class="meal-top">
           <div class="meal-name">${m.name}</div>
-          <button class="heart-btn ${m.liked ? 'liked' : ''}" onclick="toggleLike('${m.id}', ${m.liked})">
-            <i class="ti ti-heart${m.liked ? '-filled' : ''}"></i>
-          </button>
+          <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})"><i class="ti ti-heart${m.liked?'-filled':''}"></i></button>
         </div>
-        ${m.note ? `<div class="meal-note">${m.note}</div>` : ''}
+        ${m.note?`<div class="meal-note">${m.note}</div>`:''}
         <div class="meal-meta">
-          <div class="who-badge">
-            <div class="who-dot ${whoClass}" style="color:${whoColor}">${whoLabel}</div>
-            <span style="color:${whoColor}; font-size:12px;">${whoLabel === 'Tôi' ? 'Tôi' : 'Người yêu'}</span>
-          </div>
+          <span class="who-chip" style="background:${color}20;color:${color}">
+            ${isMe?'🙋':'💕'} ${uname}
+          </span>
           <span class="meal-time">${timeAgo(m.createdAt)}</span>
         </div>
       </div>
@@ -705,83 +616,91 @@ function renderFeed() {
   }).join('');
 }
 
-function renderStats() {
-  const meals = window._meals || [];
-  const now = Date.now();
-  const weekAgo = now - 7 * 86400000;
+/* ── render stats ── */
+function renderStats(){
+  const meals=window._meals||[], now=Date.now(), weekAgo=now-7*86400000, me=getMe();
+  // build list of known users from meals
+  const users=[...new Set(meals.map(m=>m.username||m.who||'?'))];
+  const nyName=users.find(u=>u.toLowerCase()!==me.toLowerCase())||'NY';
+  document.getElementById('ptog-me').textContent=me||'Tôi';
+  document.getElementById('ptog-ny').textContent=nyName;
 
-  const filtered = meals.filter(m => {
-    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
-    if (t < weekAgo) return false;
-    if (statsFilter === 'me') return m.who === 'me';
-    if (statsFilter === 'ny') return m.who === 'ny';
+  const filtered=meals.filter(m=>{
+    const t=m.createdAt?.toMillis?m.createdAt.toMillis():0;
+    if(t<weekAgo) return false;
+    const u=(m.username||m.who||'').toLowerCase();
+    if(statsFilter==='me') return u===me.toLowerCase();
+    if(statsFilter==='ny') return u===nyName.toLowerCase();
     return true;
   });
+  document.getElementById('st-total').textContent=filtered.length;
+  document.getElementById('st-likes').textContent=filtered.filter(m=>m.liked).length;
+  const nc={}; filtered.forEach(m=>{nc[m.name]=(nc[m.name]||0)+1;});
+  const fav=Object.entries(nc).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('st-fav').textContent=fav?fav[0]:'—';
+  document.getElementById('st-fav-sub').textContent=fav?fav[1]+' lần':'';
+  const bfDays=new Set(filtered.filter(m=>m.mealType==='sang').map(m=>new Date(m.createdAt?.toMillis?m.createdAt.toMillis():0).toDateString()));
+  document.getElementById('st-breakfast').textContent=bfDays.size+'/7';
+  const types=['sang','trua','toi','snack'];
+  const counts={}; types.forEach(t=>counts[t]=filtered.filter(m=>m.mealType===t).length);
+  const mx=Math.max(...Object.values(counts),1);
+  types.forEach(t=>{ document.getElementById('bar-'+t).style.width=(counts[t]/mx*100)+'%'; document.getElementById('cnt-'+t).textContent=counts[t]; });
 
-  // Total
-  document.getElementById('st-total').textContent = filtered.length;
+  const {streak,validDays}=computeStreak(meals);
+  document.getElementById('streak-num').textContent=streak;
+  const days=['CN','T2','T3','T4','T5','T6','T7'];
+  document.getElementById('streak-row').innerHTML=Array.from({length:7},(_,i)=>{
+    const d=new Date(now-(6-i)*86400000);
+    const key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+    const on=validDays.has(key), lbl=days[d.getDay()];
+    return `<div class="streak-day"><div class="s-circle ${on?'on':'off'}">${on?'✓':lbl}</div><span class="s-dname">${lbl}</span></div>`;
+  }).join('');
+}
 
-  // Likes
-  document.getElementById('st-likes').textContent = filtered.filter(m => m.liked).length;
-
-  // Favorite
-  const nameCounts = {};
-  filtered.forEach(m => { nameCounts[m.name] = (nameCounts[m.name] || 0) + 1; });
-  const favEntry = Object.entries(nameCounts).sort((a,b) => b[1]-a[1])[0];
-  document.getElementById('st-fav').textContent = favEntry ? favEntry[0] : '—';
-  document.getElementById('st-fav-sub').textContent = favEntry ? favEntry[1] + ' lần' : '';
-
-  // Breakfast
-  const breakfastDays = new Set(filtered.filter(m => m.mealType === 'sang').map(m => {
-    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
-    return new Date(t).toDateString();
-  }));
-  document.getElementById('st-breakfast').textContent = breakfastDays.size + '/7';
-
-  // Bars
-  const types = ['sang','trua','toi','snack'];
-  const counts = {};
-  types.forEach(t => counts[t] = filtered.filter(m => m.mealType === t).length);
-  const maxCount = Math.max(...Object.values(counts), 1);
-  types.forEach(t => {
-    document.getElementById('bar-' + t).style.width = (counts[t] / maxCount * 100) + '%';
-    document.getElementById('cnt-' + t).textContent = counts[t];
-  });
-
-  // Streak
-  const days = ['CN','T2','T3','T4','T5','T6','T7'];
-  const streakRow = document.getElementById('streak-row');
-  const checkedDays = new Set(filtered.map(m => {
-    const t = m.createdAt?.toMillis ? m.createdAt.toMillis() : 0;
-    return new Date(t).toDateString();
-  }));
-
-  streakRow.innerHTML = Array.from({length:7}, (_,i) => {
-    const d = new Date(now - (6-i) * 86400000);
-    const on = checkedDays.has(d.toDateString());
-    const label = days[d.getDay()];
-    return `<div class="streak-day">
-      <div class="streak-circle ${on ? 'on' : 'off'}">${on ? '✓' : label}</div>
-      <span class="streak-dname">${label}</span>
+/* ── milestones ── */
+function renderMilestones(){
+  const {streak}=computeStreak(window._meals||[]);
+  const unlocked=new Set(JSON.parse(localStorage.getItem('unlocked_ms')||'[]'));
+  document.getElementById('milestones-list').innerHTML=MILESTONES.map(ms=>{
+    const done=streak>=ms.days;
+    if(done&&!unlocked.has(ms.days)){
+      unlocked.add(ms.days);
+      localStorage.setItem('unlocked_ms',JSON.stringify([...unlocked]));
+      setTimeout(()=>openSecret(ms),500);
+    }
+    return `<div class="ms-item ${done?'unlocked':''}" onclick="${done?`openSecret(MILESTONES.find(m=>m.days===${ms.days}))`:`showToast('🔒 Chưa mở khoá!')`}">
+      <div class="ms-icon">${done?ms.emoji:'🔒'}</div>
+      <div class="ms-info">
+        <div class="ms-title">${done?ms.title:'???'}</div>
+        <div class="ms-sub">${done?`Đã mở lúc ${ms.days} ngày streak`:`Cả hai ăn sáng ${ms.days} ngày liên tiếp`}</div>
+      </div>
+      <div class="ms-lock"><i class="ti ti-${done?'lock-open':'lock'}"></i></div>
     </div>`;
   }).join('');
 }
 
-function switchStats(btn, filter) {
-  document.querySelectorAll('.ptog-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  statsFilter = filter;
-  renderStats();
+function openSecret(ms){
+  document.getElementById('modal-emoji').textContent=ms.emoji;
+  document.getElementById('modal-title').textContent='🎉 '+ms.title;
+  document.getElementById('modal-body').textContent=`Hai bạn đã đạt ${ms.days} ngày ăn sáng liên tiếp!`;
+  document.getElementById('modal-secret').textContent=ms.secret;
+  document.getElementById('secret-modal').classList.add('open');
 }
+function closeModal(){ document.getElementById('secret-modal').classList.remove('open'); }
+function switchStats(btn,f){ document.querySelectorAll('.ptog-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); statsFilter=f; renderStats(); }
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+/* ── utils ── */
+function timeAgo(ts){
+  if(!ts) return '';
+  const now=Date.now(), t=ts.toMillis?ts.toMillis():ts, d=Math.floor((now-t)/1000);
+  if(d<60) return 'vừa xong';
+  if(d<3600) return Math.floor(d/60)+' phút trước';
+  if(d<86400) return Math.floor(d/3600)+' giờ trước';
+  return Math.floor(d/86400)+' ngày trước';
 }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
 
-window._meals = [];
+initApp();
 </script>
 </body>
 </html>
