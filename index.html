@@ -133,29 +133,37 @@
     .ms-lock{font-size:18px;color:var(--text3)}
     .ms-item.unlocked .ms-lock{color:var(--accent)}
 
-    /* SETTINGS */
-    .settings-wrap{padding:16px 16px 100px;display:flex;flex-direction:column;gap:20px}
-    .settings-section{display:flex;flex-direction:column;gap:10px}
+    /* SETTINGS DRAWER */
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);z-index:150;pointer-events:none;transition:background .3s}
+    .drawer-overlay.open{background:rgba(0,0,0,.6);pointer-events:all}
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:300px;max-width:88vw;background:var(--bg2);z-index:151;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);overflow-y:auto;display:flex;flex-direction:column;border-left:1px solid var(--border)}
+    .drawer::-webkit-scrollbar{display:none}
+    .drawer.open{transform:translateX(0)}
+    .drawer-header{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--border);flex-shrink:0;padding-top:calc(env(safe-area-inset-top,20px) + 16px)}
+    .drawer-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text)}
+    .drawer-close{background:none;border:none;cursor:pointer;color:var(--text2);font-size:22px;padding:4px;line-height:1}
+    .drawer-body{padding:16px;display:flex;flex-direction:column;gap:20px;padding-bottom:40px}
+    .stg-section{display:flex;flex-direction:column;gap:10px}
     .stg-title{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-    .stg-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-    .stg-item{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border)}
+    .stg-row{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+    .stg-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border)}
     .stg-item:last-child{border-bottom:none}
-    .stg-icon{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);flex-shrink:0}
+    .stg-icon{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--accent);flex-shrink:0}
     .stg-label{flex:1;font-size:14px;color:var(--text)}
     .stg-val{font-size:13px;color:var(--text3)}
-    .stg-item input{background:none;border:none;outline:none;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;text-align:right;width:160px}
+    .stg-item input{background:none;border:none;outline:none;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;text-align:right;width:120px}
     .stg-item input::placeholder{color:var(--text3)}
-    .stg-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+    .stg-btn{background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 16px;font-size:13px;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;align-self:flex-start}
     .stg-btn:active{border-color:var(--accent);color:var(--accent)}
     .theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .theme-btn{border-radius:var(--radius-sm);padding:10px 6px;border:1.5px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--bg2);color:var(--text2);transition:border-color .2s}
+    .theme-btn{border-radius:var(--radius-sm);padding:8px 4px;border:1.5px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-family:'DM Sans',sans-serif;background:var(--bg3);color:var(--text2);transition:border-color .2s}
     .theme-btn.active{border-color:var(--accent);color:var(--accent)}
-    .theme-swatch{width:32px;height:32px;border-radius:50%}
+    .theme-swatch{width:28px;height:28px;border-radius:50%}
     .wp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .wp-btn{border-radius:var(--radius-sm);height:70px;border:1.5px solid var(--border);cursor:pointer;overflow:hidden;position:relative;background:var(--bg3);transition:border-color .2s}
+    .wp-btn{border-radius:var(--radius-sm);height:64px;border:1.5px solid var(--border);cursor:pointer;overflow:hidden;position:relative;background:var(--bg3);transition:border-color .2s}
     .wp-btn.active{border-color:var(--accent)}
-    .wp-btn span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.8);text-align:center}
-    .wp-check{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#1a1208;font-size:10px;display:none;align-items:center;justify-content:center;font-weight:700}
+    .wp-btn span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.85);text-align:center;padding:4px}
+    .wp-check{position:absolute;top:4px;right:4px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#1a1208;font-size:9px;display:none;align-items:center;justify-content:center;font-weight:700}
     .wp-btn.active .wp-check{display:flex}
 
     /* LOGIN SCREEN */
@@ -200,10 +208,10 @@
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
-    <div class="login-tagline">Nhật ký ăn uống cụa đôi taaaa 🍜</div>
-    <label class="login-label">Tên là gì?</label>
+    <div class="login-tagline">Nhật ký ăn uống của đôi taaa🍜</div>
+    <label class="login-label">Gọi là gì đâyyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
-    <button class="login-btn" onclick="doLogin()">Vào thôi! </button>
+    <button class="login-btn" onclick="doLogin()">Vào thôi!</button>
     <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
   </div>
 </div>
@@ -214,7 +222,7 @@
     <div class="header-logo">foo<span>'</span>die</div>
     <div class="header-right">
       <span class="header-user" id="header-user"></span>
-      <button class="icon-btn" onclick="switchTab('settings', document.querySelectorAll('.tab-btn')[3])" title="Cài đặt">
+      <button class="icon-btn" onclick="openDrawer()" title="Cài đặt">
         <i class="ti ti-settings"></i>
       </button>
     </div>
@@ -308,67 +316,66 @@
       </div>
     </div>
 
-    <!-- SETTINGS -->
-    <div class="page" id="page-settings">
-      <div class="page-title">Cài đặt ⚙️</div>
-      <div class="settings-wrap">
-
-        <div class="settings-section">
-          <div class="stg-title">Tài khoản</div>
-          <div class="stg-row">
-            <div class="stg-item">
-              <div class="stg-icon"><i class="ti ti-user"></i></div>
-              <div class="stg-label">Tên của tôi</div>
-              <input type="text" id="cfg-username" placeholder="Tên bạn" maxlength="20" onblur="saveUsername(this.value)">
-            </div>
-          </div>
-          <button class="stg-btn" onclick="logout()" style="align-self:flex-start">Đổi người dùng</button>
-        </div>
-
-        <div class="settings-section">
-          <div class="stg-title">Màu giao diện</div>
-          <div class="theme-grid">
-            <button class="theme-btn" data-theme="dark" onclick="applyTheme('dark',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0f0d08,#e8a030)"></div>Tối ấm</button>
-            <button class="theme-btn" data-theme="light" onclick="applyTheme('light',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#f5f0e8,#c47820)"></div>Sáng</button>
-            <button class="theme-btn" data-theme="rose" onclick="applyTheme('rose',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#1a0e12,#e87090)"></div>Hoa hồng</button>
-            <button class="theme-btn" data-theme="forest" onclick="applyTheme('forest',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0a0f0c,#5ec47a)"></div>Rừng xanh</button>
-            <button class="theme-btn" data-theme="ocean" onclick="applyTheme('ocean',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#08101a,#50b4e8)"></div>Đại dương</button>
-            <button class="theme-btn" data-theme="pastel" onclick="applyTheme('pastel',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#faf6f8,#c060a0)"></div>Pastel</button>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <div class="stg-title">Hình nền</div>
-          <div class="wp-grid">
-            <button class="wp-btn" data-wp="none" onclick="applyWallpaper('none',this)"><span style="color:var(--text3)">Không có</span><div class="wp-check">✓</div></button>
-            <button class="wp-btn" data-wp="cherry" onclick="applyWallpaper('cherry',this)" style="background:linear-gradient(135deg,#2d1a2e,#6b2d4a,#d4527a)"><span>🌸 Hoa anh đào</span><div class="wp-check">✓</div></button>
-            <button class="wp-btn" data-wp="sunset" onclick="applyWallpaper('sunset',this)" style="background:linear-gradient(135deg,#1a0a08,#8b3a1a,#e87040,#f0c060)"><span>🌅 Hoàng hôn</span><div class="wp-check">✓</div></button>
-            <button class="wp-btn" data-wp="night" onclick="applyWallpaper('night',this)" style="background:linear-gradient(135deg,#080818,#1a1a40,#3040a0)"><span>🌙 Đêm khuya</span><div class="wp-check">✓</div></button>
-            <button class="wp-btn" data-wp="matcha" onclick="applyWallpaper('matcha',this)" style="background:linear-gradient(135deg,#0d180f,#2a4a2e,#5a9060)"><span>🍵 Matcha</span><div class="wp-check">✓</div></button>
-            <button class="wp-btn" data-wp="candy" onclick="applyWallpaper('candy',this)" style="background:linear-gradient(135deg,#2a0a20,#7a2060,#e060a0)"><span>🍬 Kẹo ngọt</span><div class="wp-check">✓</div></button>
-          </div>
-        </div>
-
-        <div class="settings-section">
-          <div class="stg-title">Thông tin</div>
-          <div class="stg-row">
-            <div class="stg-item">
-              <div class="stg-icon"><i class="ti ti-info-circle"></i></div>
-              <div class="stg-label">foo'die v3.0</div>
-              <div class="stg-val">Made with ❤️</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('feed',this)"><i class="ti ti-layout-list"></i><span>Feed</span></button>
     <button class="tab-btn" onclick="switchTab('checkin',this)"><i class="ti ti-circle-plus"></i><span>Check-in</span></button>
     <button class="tab-btn" onclick="switchTab('stats',this)"><i class="ti ti-chart-bar"></i><span>Thống kê</span></button>
-    <button class="tab-btn" onclick="switchTab('settings',this)"><i class="ti ti-settings"></i><span>Cài đặt</span></button>
+  </div>
+</div>
+
+<!-- SETTINGS DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="settings-drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">⚙️ Cài đặt</div>
+    <button class="drawer-close" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="drawer-body">
+    <div class="stg-section">
+      <div class="stg-title">Tài khoản</div>
+      <div class="stg-row">
+        <div class="stg-item">
+          <div class="stg-icon"><i class="ti ti-user"></i></div>
+          <div class="stg-label">Tên của tôi</div>
+          <input type="text" id="cfg-username" placeholder="Tên bạn" maxlength="20" onblur="saveUsername(this.value)">
+        </div>
+      </div>
+      <button class="stg-btn" onclick="logout()">Đổi người dùng</button>
+    </div>
+    <div class="stg-section">
+      <div class="stg-title">Màu giao diện</div>
+      <div class="theme-grid">
+        <button class="theme-btn" data-theme="dark" onclick="applyTheme('dark',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0f0d08,#e8a030)"></div>Tối ấm</button>
+        <button class="theme-btn" data-theme="light" onclick="applyTheme('light',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#f5f0e8,#c47820)"></div>Sáng</button>
+        <button class="theme-btn" data-theme="rose" onclick="applyTheme('rose',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#1a0e12,#e87090)"></div>Hoa hồng</button>
+        <button class="theme-btn" data-theme="forest" onclick="applyTheme('forest',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#0a0f0c,#5ec47a)"></div>Rừng xanh</button>
+        <button class="theme-btn" data-theme="ocean" onclick="applyTheme('ocean',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#08101a,#50b4e8)"></div>Đại dương</button>
+        <button class="theme-btn" data-theme="pastel" onclick="applyTheme('pastel',this)"><div class="theme-swatch" style="background:linear-gradient(135deg,#faf6f8,#c060a0)"></div>Pastel</button>
+      </div>
+    </div>
+    <div class="stg-section">
+      <div class="stg-title">Hình nền</div>
+      <div class="wp-grid">
+        <button class="wp-btn" data-wp="none" onclick="applyWallpaper('none',this)"><span style="color:var(--text3)">Không có</span><div class="wp-check">✓</div></button>
+        <button class="wp-btn" data-wp="cherry" onclick="applyWallpaper('cherry',this)" style="background:linear-gradient(135deg,#2d1a2e,#6b2d4a,#d4527a)"><span>🌸 Hoa</span><div class="wp-check">✓</div></button>
+        <button class="wp-btn" data-wp="sunset" onclick="applyWallpaper('sunset',this)" style="background:linear-gradient(135deg,#1a0a08,#8b3a1a,#e87040,#f0c060)"><span>🌅 Hoàng hôn</span><div class="wp-check">✓</div></button>
+        <button class="wp-btn" data-wp="night" onclick="applyWallpaper('night',this)" style="background:linear-gradient(135deg,#080818,#1a1a40,#3040a0)"><span>🌙 Đêm</span><div class="wp-check">✓</div></button>
+        <button class="wp-btn" data-wp="matcha" onclick="applyWallpaper('matcha',this)" style="background:linear-gradient(135deg,#0d180f,#2a4a2e,#5a9060)"><span>🍵 Matcha</span><div class="wp-check">✓</div></button>
+        <button class="wp-btn" data-wp="candy" onclick="applyWallpaper('candy',this)" style="background:linear-gradient(135deg,#2a0a20,#7a2060,#e060a0)"><span>🍬 Kẹo</span><div class="wp-check">✓</div></button>
+      </div>
+    </div>
+    <div class="stg-section">
+      <div class="stg-title">Thông tin</div>
+      <div class="stg-row">
+        <div class="stg-item">
+          <div class="stg-icon"><i class="ti ti-info-circle"></i></div>
+          <div class="stg-label">foo'die v3.0</div>
+          <div class="stg-val">Made with ❤️</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -488,12 +495,23 @@ function applyWallpaperSilent(wp){ document.getElementById('app').style.backgrou
 function applyWallpaper(wp){ localStorage.setItem('wallpaper',wp); applyWallpaperSilent(wp); }
 
 /* ── nav ── */
+function openDrawer(){
+  document.getElementById('settings-drawer').classList.add('open');
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  document.getElementById('settings-drawer').classList.remove('open');
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
 function switchTab(name,btn){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   if(btn) btn.classList.add('active');
   if(name==='stats'){ renderStats(); renderMilestones(); }
+  if(name==='settings'){ openDrawer(); return; }
 }
 
 /* ── check-in ── */
