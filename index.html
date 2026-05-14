@@ -210,9 +210,9 @@
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
     <div class="login-tagline">Nhật ký ăn uống của đôi taaa 🍜</div>
-    <label class="login-label">Nên gọi là gì âyyy?</label>
+    <label class="login-label">Nên gọi là gì âyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
-    <button class="login-btn" onclick="doLogin()">Vào thui!</button>
+    <button class="login-btn" onclick="doLogin()">Vào thuiii!</button>
     <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
   </div>
 </div>
@@ -675,7 +675,9 @@ function renderFeed(){
             <button onclick="deleteMeal('${m.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 4px;transition:color .2s" title="Xóa"><i class="ti ti-trash"></i></button>
             `:''}
             <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})" style="font-size:18px">
-              <i class="ti ti-heart" style="${m.liked?'font-weight:900;color:#e05070':''}" ></i>
+              ${m.liked
+                ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="#e05070"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>'
+                : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'}
             </button>
           </div>
         </div>
