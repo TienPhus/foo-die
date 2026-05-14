@@ -210,9 +210,9 @@
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
     <div class="login-tagline">Nhật ký ăn uống của đôi taaa 🍜</div>
-    <label class="login-label">Nên gọi là gì âyy?</label>
+    <label class="login-label">Nên gọi là gì âyyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
-    <button class="login-btn" onclick="doLogin()">Vào thôi!</button>
+    <button class="login-btn" onclick="doLogin()">Vào thui!</button>
     <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
   </div>
 </div>
@@ -376,6 +376,19 @@
           <div class="stg-val">Made with ❤️</div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal" style="max-width:300px">
+    <div class="modal-emoji">🗑️</div>
+    <div class="modal-title">Xóa bài này?</div>
+    <div class="modal-body">Bài ăn này sẽ bị xóa vĩnh viễn.</div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button onclick="cancelDelete()" style="flex:1;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif">Huỷ</button>
+      <button onclick="confirmDelete()" style="flex:1;background:#e05070;color:white;border:none;border-radius:var(--radius-sm);padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Xóa</button>
     </div>
   </div>
 </div>
@@ -661,8 +674,8 @@ function renderFeed(){
             <button onclick="editMeal('${m.id}','${m.name.replace(/'/g,"\\'")}','${m.mealType}',\`${(m.note||'').replace(/`/g,'\\`')}\`)" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 4px;transition:color .2s" title="Chỉnh sửa"><i class="ti ti-pencil"></i></button>
             <button onclick="deleteMeal('${m.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 4px;transition:color .2s" title="Xóa"><i class="ti ti-trash"></i></button>
             `:''}
-            <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})">
-              ${m.liked?'❤️':'<i class="ti ti-heart"></i>'}
+            <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})" style="font-size:18px">
+              <i class="ti ti-heart" style="${m.liked?'font-weight:900;color:#e05070':''}" ></i>
             </button>
           </div>
         </div>
@@ -764,12 +777,20 @@ function showToast(msg){ const t=document.getElementById('toast'); t.textContent
 
 
 /* ── delete meal ── */
-async function deleteMeal(id){
-  if(!confirm('Xóa bài này không?')) return;
+function deleteMeal(id){
+  window._pendingDeleteId = id;
+  document.getElementById('confirm-modal').classList.add('open');
+}
+async function confirmDelete(){
+  const id = window._pendingDeleteId;
+  document.getElementById('confirm-modal').classList.remove('open');
   try{
     await window._updateDoc(window._doc(window._db,'meals',id),{deleted:true});
     showToast('🗑️ Đã xóa!');
   }catch(e){ showToast('❌ Lỗi: '+e.message); }
+}
+function cancelDelete(){
+  document.getElementById('confirm-modal').classList.remove('open');
 }
 
 /* ── edit meal ── */
