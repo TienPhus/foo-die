@@ -199,6 +199,7 @@
     .spinner{width:18px;height:18px;border:2px solid rgba(26,18,8,.3);border-top-color:#1a1208;border-radius:50%;animation:spin .6s linear infinite}
     .big-spinner{width:36px;height:36px;border:3px solid var(--bg3);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
+    .edit-type-btn.selected{border-color:var(--accent)!important;background:var(--accent-soft)!important;color:var(--accent)!important}
     .connecting{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;color:var(--text2)}
   </style>
 </head>
@@ -208,8 +209,8 @@
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
-    <div class="login-tagline">Nhật ký ăn uống đôi taaa 🍜</div>
-    <label class="login-label">Nên gọi là gì âyyy?</label>
+    <div class="login-tagline">Nhật ký ăn uống của đôi taaa 🍜</div>
+    <label class="login-label">Nên gọi là gì âyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
     <button class="login-btn" onclick="doLogin()">Vào thôi!</button>
     <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
@@ -379,6 +380,32 @@
   </div>
 </div>
 
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <input type="hidden" id="edit-id">
+    <div class="modal-title" style="margin-bottom:16px">✏️ Chỉnh sửa</div>
+    <div class="field" style="margin-bottom:12px">
+      <label style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">Tên món</label>
+      <input type="text" id="edit-name" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:15px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;-webkit-appearance:none">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+      <button class="edit-type-btn selected" data-val="sang" onclick="document.querySelectorAll('.edit-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')" style="padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);transition:all .15s">🌅 Sáng</button>
+      <button class="edit-type-btn" data-val="trua" onclick="document.querySelectorAll('.edit-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')" style="padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);transition:all .15s">☀️ Trưa</button>
+      <button class="edit-type-btn" data-val="toi" onclick="document.querySelectorAll('.edit-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')" style="padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);transition:all .15s">🌙 Tối</button>
+      <button class="edit-type-btn" data-val="snack" onclick="document.querySelectorAll('.edit-type-btn').forEach(b=>b.classList.remove('selected'));this.classList.add('selected')" style="padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);transition:all .15s">🧃 Snack</button>
+    </div>
+    <div class="field" style="margin-bottom:20px">
+      <label style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">Ghi chú</label>
+      <textarea id="edit-note" rows="3" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;resize:none;line-height:1.5"></textarea>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="document.getElementById('edit-modal').classList.remove('open')" style="flex:1;background:var(--bg3);color:var(--text2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif">Huỷ</button>
+      <button onclick="saveEdit()" style="flex:2;background:var(--accent);color:#1a1208;border:none;border-radius:var(--radius-sm);padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Lưu lại</button>
+    </div>
+  </div>
+</div>
+
 <!-- SECRET MODAL -->
 <div class="modal-overlay" id="secret-modal">
   <div class="modal">
@@ -412,7 +439,7 @@ window._updateDoc=updateDoc; window._doc=doc;
 window._serverTimestamp=serverTimestamp;
 
 onSnapshot(query(collection(db,'meals'),orderBy('createdAt','desc')), snap=>{
-  window._meals=snap.docs.map(d=>({id:d.id,...d.data()}));
+  window._meals=snap.docs.map(d=>({id:d.id,...d.data()})).filter(m=>!m.deleted);
   renderFeed(); renderStats();
 });
 </script>
@@ -629,7 +656,15 @@ function renderFeed(){
       <div class="meal-body">
         <div class="meal-top">
           <div class="meal-name">${m.name}</div>
-          <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})"><i class="ti ti-heart${m.liked?'-filled':''}"></i></button>
+          <div style="display:flex;align-items:center;gap:4px">
+            ${uname.toLowerCase()===me.toLowerCase()?`
+            <button onclick="editMeal('${m.id}','${m.name.replace(/'/g,"\\'")}','${m.mealType}',\`${(m.note||'').replace(/`/g,'\\`')}\`)" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 4px;transition:color .2s" title="Chỉnh sửa"><i class="ti ti-pencil"></i></button>
+            <button onclick="deleteMeal('${m.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:2px 4px;transition:color .2s" title="Xóa"><i class="ti ti-trash"></i></button>
+            `:''}
+            <button class="heart-btn ${m.liked?'liked':''}" onclick="toggleLike('${m.id}',${m.liked})">
+              ${m.liked?'❤️':'<i class="ti ti-heart"></i>'}
+            </button>
+          </div>
         </div>
         ${m.note?`<div class="meal-note">${m.note}</div>`:''}
         <div class="meal-meta">
@@ -726,6 +761,41 @@ function timeAgo(ts){
   return Math.floor(d/86400)+' ngày trước';
 }
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+
+/* ── delete meal ── */
+async function deleteMeal(id){
+  if(!confirm('Xóa bài này không?')) return;
+  try{
+    await window._updateDoc(window._doc(window._db,'meals',id),{deleted:true});
+    showToast('🗑️ Đã xóa!');
+  }catch(e){ showToast('❌ Lỗi: '+e.message); }
+}
+
+/* ── edit meal ── */
+function editMeal(id, name, mealType, note){
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-name').value = name;
+  document.getElementById('edit-note').value = note;
+  // set meal type buttons
+  document.querySelectorAll('.edit-type-btn').forEach(b=>{
+    b.classList.toggle('selected', b.dataset.val===mealType);
+  });
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+async function saveEdit(){
+  const id = document.getElementById('edit-id').value;
+  const name = document.getElementById('edit-name').value.trim();
+  const note = document.getElementById('edit-note').value.trim();
+  const mealType = document.querySelector('.edit-type-btn.selected')?.dataset.val || 'sang';
+  if(!name){ showToast('⚠️ Nhập tên món đi!'); return; }
+  try{
+    await window._updateDoc(window._doc(window._db,'meals',id),{name,note,mealType});
+    document.getElementById('edit-modal').classList.remove('open');
+    showToast('✅ Đã cập nhật!');
+  }catch(e){ showToast('❌ Lỗi: '+e.message); }
+}
 
 initApp();
 </script>
