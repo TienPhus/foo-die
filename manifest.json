@@ -1,7 +1,7 @@
 {
   "name": "foo'die",
   "short_name": "foo'die",
-  "description": "Check-in món ăn mỗi ngày",
+  "description": "Nhật ký ăn uống của hai người",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f0d08",
@@ -9,14 +9,14 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://api.dicebear.com/7.x/icons/svg?seed=foodie&backgroundColor=e8a030&icon=bowl",
+      "src": "/icon.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "https://api.dicebear.com/7.x/icons/svg?seed=foodie&backgroundColor=e8a030&icon=bowl",
+      "src": "/icon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
