@@ -212,11 +212,11 @@
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
-    <div class="login-tagline">Nhật ký ăn uống của đôi mìnhh 🍜</div>
-    <label class="login-label">Nên gọi là gì nhỉii?</label>
+    <div class="login-tagline">Nhật ký ăn uống của đôi taa 🍜</div>
+    <label class="login-label">Nên gọi là gì âyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
-    <button class="login-btn" onclick="doLogin()">Vào thuiii! </button>
-    <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người yêu cũng nhập tên của họ trên máy của họ.</div>
+    <button class="login-btn" onclick="doLogin()">Vào thuiii! 🚀</button>
+    <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người bên kia cũng nhập tên của họ trên máy của họ.</div>
   </div>
 </div>
 
@@ -618,6 +618,7 @@ async function startCamera(){
     });
     video.srcObject = cameraStream;
     video.style.display = 'block';
+    video.style.transform = facingMode==='user' ? 'scaleX(-1)' : 'scaleX(1)';
     idle.style.display = 'none';
     controls.style.display = 'flex';
   } catch(err) {
@@ -638,7 +639,12 @@ function capturePhoto(e){
   const canvas = document.createElement('canvas');
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video,0,0);
+  const ctx = canvas.getContext('2d');
+  if(facingMode==='user'){
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
+  ctx.drawImage(video,0,0);
   canvas.toBlob(blob=>{
     selectedFile = new File([blob],'photo.jpg',{type:'image/jpeg'});
     const url = URL.createObjectURL(blob);
