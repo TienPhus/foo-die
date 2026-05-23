@@ -212,11 +212,11 @@
 <div class="login-screen" id="login-screen">
   <div class="login-card">
     <div class="login-logo">foo<span>'</span>die</div>
-    <div class="login-tagline">Nhật ký ăn uống của đôi taa 🍜</div>
-    <label class="login-label">Nên gọi là gì âyy?</label>
+    <div class="login-tagline">Nhật ký ăn uống của chúng mìnhhh 🍜</div>
+    <label class="login-label">Nên gọi là gì đâyy?</label>
     <input class="login-input" id="login-input" type="text" placeholder="Nhập tên..." maxlength="20" autocomplete="off">
-    <button class="login-btn" onclick="doLogin()">Vào thuiii! 🚀</button>
-    <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người bên kia cũng nhập tên của họ trên máy của họ.</div>
+    <button class="login-btn" onclick="doLogin()">Vào thuiii!</button>
+    <div class="login-hint">Tên sẽ hiện lên mỗi khi bạn đăng bữa ăn.<br>Người ấy cũng nhập tên của họ trên máy của họ.</div>
   </div>
 </div>
 
@@ -395,7 +395,7 @@
       <div class="stg-row">
         <div class="stg-item">
           <div class="stg-icon"><i class="ti ti-info-circle"></i></div>
-          <div class="stg-label">foo'die v3.0</div>
+          <div class="stg-label">foo'die v1.0</div>
           <div class="stg-val">Made with ❤️</div>
         </div>
       </div>
@@ -449,6 +449,11 @@
     <div class="modal-title" id="modal-title"></div>
     <div class="modal-body" id="modal-body"></div>
     <div class="modal-secret" id="modal-secret"></div>
+    <div id="modal-link-wrap" style="display:none;margin-bottom:16px">
+      <a id="modal-link" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#1a1208;border-radius:var(--radius-sm);padding:13px;font-size:15px;font-weight:600;text-decoration:none;font-family:'DM Sans',sans-serif">
+        🎁 Mở quà ngay!
+      </a>
+    </div>
     <button class="modal-close" onclick="closeModal()">Tuyệt vời! 💕</button>
   </div>
 </div>
@@ -482,7 +487,7 @@ onSnapshot(query(collection(db,'meals'),orderBy('createdAt','desc')), snap=>{
 
 <script>
 const MILESTONES=[
-  {days:3,  emoji:'🌱',title:'Mầm xanh',         secret:'3 ngày đầu tiên rồi! Hãy nhắn cho nhau một tin nhắn yêu thương ngay sáng nay 🌞'},
+  {days:3,  emoji:'🎁',title:'Mầm xanh',         secret:'3 ngày đầu tiên rồi! Có một món quà nhỏ dành cho bạn 🎁', link:'https://zippy-manatee-1038d4.netlify.app/'},
   {days:7,  emoji:'🔥',title:'Một tuần bùng cháy',secret:'7 ngày liên tiếp! Cùng nấu bữa sáng cho nhau cuối tuần này nhé — dù chỉ là trứng chiên cũng ngọt lắm 🍳'},
   {days:14, emoji:'💫',title:'Hai tuần lung linh', secret:'14 ngày! Thử viết một tờ giấy nhắn yêu thương rồi giấu vào túi xách của nhau sáng mai ✉️'},
   {days:30, emoji:'🌙',title:'Một tháng trăng',    secret:'Cả tháng ăn sáng cùng nhau! Hẹn một buổi ăn sáng tại quán yêu thích của hai người ☕'},
@@ -848,6 +853,14 @@ function openSecret(ms){
   document.getElementById('modal-title').textContent='🎉 '+ms.title;
   document.getElementById('modal-body').textContent=`Hai bạn đã đạt ${ms.days} ngày ăn sáng liên tiếp!`;
   document.getElementById('modal-secret').textContent=ms.secret;
+  const linkWrap=document.getElementById('modal-link-wrap');
+  const linkEl=document.getElementById('modal-link');
+  if(ms.link){
+    linkEl.href=ms.link;
+    linkWrap.style.display='block';
+  } else {
+    linkWrap.style.display='none';
+  }
   document.getElementById('secret-modal').classList.add('open');
 }
 function closeModal(){ document.getElementById('secret-modal').classList.remove('open'); }
